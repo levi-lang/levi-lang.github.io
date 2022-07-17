@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>kubernetes 部署工具: kubekey</title>
+        
+        <style>
+
+    html body {
+        font-family: 'Raleway', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: red;
+        --border-width:  5px ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="https://levi-lang.github.io/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"> 
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scala.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/swift.min.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.101.0" />
+        
+
+        
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        
+
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#">kubernetes 部署工具: kubekey</a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                        <ul class="nav navbar-nav">
+                            
+                                <li><a href="/">Home</a></li>
+                            
+                                <li><a href="/about/">About</a></li>
+                            
+                                <li><a href="/post/">Posts</a></li>
+                            
+                                <li><a href="/project/">Projects</a></li>
+                            
+                        </ul>
+                    
+                    
+                        <ul class="nav navbar-nav navbar-right">
+                            
+                                <li class="navbar-icon"><a href="mailto:me@example.com"><i class="fas fa-envelope"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://github.com/username/"><i class="fab fa-github"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://twitter.com/username/"><i class="fab fa-twitter"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://www.linkedin.com/in/username/"><i class="fab fa-linkedin"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://www.stackoverflow.com/username/"><i class="fab fa-stack-overflow"></i></a></li>
+                            
+                        </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2>kubernetes 部署工具: kubekey</h2>
+        <h5>July 16, 2022</h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="kubernetes-安装的方式">kubernetes 安装的方式</h1>
+<ul>
+<li>二进制</li>
+<li>minikube</li>
+<li>kind</li>
+<li>kubeadm</li>
+<li>kubespray</li>
+<li>sealos</li>
+<li>kubeasz</li>
+<li>kubekey</li>
+<li>KOPS</li>
+<li>k3s</li>
+<li>rancher</li>
+</ul>
+<h2 id="每台机器必须要安装">每台机器必须要安装</h2>
+<pre tabindex="0"><code>yum install socat ipvsadm conntrack -y
+systemctl stop postfix &amp;&amp; systemctl disable postfix
+systemctl stop firewalld &amp;&amp; systemctl disable firewalld
+setenforce 0 &amp;&amp; sed -i &#39;s/^SELINUX=.*/SELINUX=disabled/&#39; /etc/selinux/config
+
+
+curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+
+vim /etc/docker/daemon.json
+{
+	&#34;log-driver&#34;:&#34;json-file&#34;, &#34;log-opts&#34;: {&#34;max-size&#34;:&#34;9G&#34;, &#34;max-file&#34;:&#34;3&#34;},
+	&#34;registry-mirrors&#34;: [&#34;https://7a1tnjfc.mirror.aliyuncs.com&#34;],
+	&#34;data-root&#34;:&#34;/data/docker&#34;,
+	&#34;dns&#34; : [&#34;114.114.114.114&#34;,&#34;8.8.8.8&#34;]
+}
+
+systemctl daemon-reload &amp;&amp; systemctl restart docker &amp;&amp; systemctl enable docker
+</code></pre><h1 id="使用kubekey-安装">使用kubekey 安装</h1>
+<ul>
+<li>参考地址:
+<ul>
+<li>github: <a href="https://github.com/kubesphere/kubekey">https://github.com/kubesphere/kubekey</a></li>
+<li>kubesphere: <a href="https://kubesphere.com.cn/">https://kubesphere.com.cn/</a></li>
+<li>kubernetes: <a href="https://kubernetes.io/releases/">https://kubernetes.io/releases/</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="在-linux-上以-all-in-one-模式安装">在 Linux 上以 All-in-One 模式安装</h2>
+<pre tabindex="0"><code>export KKZONE=cn
+curl -sfL https://get-kk.kubesphere.io | VERSION=v2.2.1 sh -
+chmod +x kk
+./kk create cluster --with-kubernetes v1.22.10
+</code></pre><h2 id="增加节点">增加节点</h2>
+<pre tabindex="0"><code>./kk create config --from-cluster
+./kk add nodes -f sample.yaml
+
+apiVersion: kubekey.kubesphere.io/v1alpha2
+kind: Cluster
+metadata:
+  name: sample
+spec:
+  hosts:
+  ##You should complete the ssh information of the hosts
+  - {name: master, address: 192.168.18.111, internalAddress: 192.168.18.111, user: root, password: levi123123}
+  - {name: node1, address: 192.168.18.112, internalAddress: 192.168.18.112, user: root, password: levi123123}
+  roleGroups:
+    etcd:
+    - master
+    master:
+    - master
+    worker:
+    - node1
+  controlPlaneEndpoint:
+    ##Internal loadbalancer for apiservers
+    #internalLoadbalancer: haproxy
+
+    ##If the external loadbalancer was used, &#39;address&#39; should be set to loadbalancer&#39;s ip.
+    domain: lb.kubesphere.local
+    address: &#34;&#34;
+    port: 6443
+  kubernetes:
+    version: v1.22.10
+    clusterName: cluster.local
+    proxyMode: ipvs
+    masqueradeAll: false
+    maxPods: 110
+    nodeCidrMaskSize: 24
+  network:
+    plugin: calico
+    kubePodsCIDR: 10.233.64.0/18
+    kubeServiceCIDR: 10.233.0.0/18
+  registry:
+    privateRegistry: &#34;&#34;
+</code></pre><h1 id="升级">升级</h1>
+<pre tabindex="0"><code>./kk upgrade --with-kubernetes v1.23.7 -f sample.yaml 
+</code></pre><h1 id="启用-kubectl-自动补全">启用 kubectl 自动补全</h1>
+<pre tabindex="0"><code># Centos
+yum -y install bash-completion 
+source /usr/share/bash-completion/bash_completion	
+source &lt;(kubectl completion bash)	
+echo &#34;source &lt;(kubectl completion bash)&#34; &gt;&gt; ~/.bashrc
+
+# Ubuntu
+apt-get install bash-completion
+echo &#39;source &lt;(kubectl completion bash)&#39; &gt;&gt;~/.bashrc
+kubectl completion bash &gt;/etc/bash_completion.d/kubectl
+</code></pre><h1 id="启用-helm-自动补全">启用 helm 自动补全</h1>
+<pre tabindex="0"><code>source &lt;(helm completion bash)
+helm completion bash &gt; /etc/bash_completion.d/helm
+</code></pre><h1 id="安装longhorn">安装longhorn</h1>
+<pre tabindex="0"><code>yum install iscsi-initiator-utils -y
+apt install open-iscsi -y
+systemctl enable --now iscsid
+systemctl status iscsid
+cat /etc/iscsi/initiatorname.iscsi
+
+helm repo add longhorn https://charts.longhorn.io
+helm repo update
+kubectl create namespace longhorn-system
+helm pull longhorn/longhorn
+tar xf longhorn-1.3.0.tgz 
+helm install longhorn longhorn --namespace longhorn-system
+
+
+kubectl get pods -n longhorn-system -w 
+helm ls -a -A
+kubectl get sc
+</code></pre><h1 id="安装kubesphere">安装kubesphere</h1>
+<pre tabindex="0"><code>kubectl apply -f https://github.com/kubesphere/ks-installer/releases/download/v3.3.0/kubesphere-installer.yaml
+kubectl apply -f https://github.com/kubesphere/ks-installer/releases/download/v3.3.0/cluster-configuration.yaml
+
+# 查看安装结果
+kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l &#39;app in (ks-install, ks-installer)&#39; -o jsonpath=&#39;{.items[0].metadata.name}&#39;) -f
+</code></pre><h1 id="开启etcd-监控">开启etcd 监控</h1>
+<pre tabindex="0"><code>在etcd 节点执行
+ps -ef | grep etcd
+
+kube-apiserver --advertise-address=192.168.18.111 
+--allow-privileged=true 
+--audit-log-maxage=30 
+--audit-log-maxbackup=10 
+--audit-log-maxsize=100 
+--authorization-mode=Node,RBAC 
+--bind-address=0.0.0.0 
+--client-ca-file=/etc/kubernetes/pki/ca.crt 
+--enable-admission-plugins=NodeRestriction 
+--enable-bootstrap-token-auth=true 
+
+--etcd-cafile=/etc/ssl/etcd/ssl/ca.pem 
+--etcd-certfile=/etc/ssl/etcd/ssl/node-master.pem 
+--etcd-keyfile=/etc/ssl/etcd/ssl/node-master-key.pem 
+
+--etcd-servers=https://192.168.18.111:2379 
+--feature-gates=ExpandCSIVolumes=true,CSIStorageCapacity=true,RotateKubeletServerCertificate=true,TTLAfterFinished=true 
+--kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt 
+--kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key 
+--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname 
+--proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt 
+--proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key 
+--requestheader-allowed-names=front-proxy-client 
+--requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt 
+--requestheader-extra-headers-prefix=X-Remote-Extra- 
+--requestheader-group-headers=X-Remote-Group 
+--requestheader-username-headers=X-Remote-User 
+--secure-port=6443 
+--service-account-issuer=https://kubernetes.default.svc.cluster.local 
+--service-account-key-file=/etc/kubernetes/pki/sa.pub 
+--service-account-signing-key-file=/etc/kubernetes/pki/sa.key 
+--service-cluster-ip-range=10.233.0.0/18 
+--tls-cert-file=/etc/kubernetes/pki/apiserver.crt 
+--tls-private-key-file=/etc/kubernetes/pki/apiserver.key
+
+kubectl -n kubesphere-monitoring-system create secret generic kube-etcd-client-certs  \
+--from-file=etcd-client-ca.crt=/etc/ssl/etcd/ssl/ca.pem   \
+--from-file=etcd-client.crt=/etc/ssl/etcd/ssl/node-master.pem \
+--from-file=etcd-client.key=/etc/ssl/etcd/ssl/node-master-key.pem
+
+开启kk组件中的etcd监控
+在&lt;定制资源定义中搜索ClusterConfiguration&gt;
+  etcd:
+    endpointIps: localhost
+    monitoring: false
+    port: 2379
+    tlsEnable: true
+
+修改如下
+注意：下列配置为etcd集群 因为自己的搭建的只有一个master 故只填写一个IP
+etcd:
+    endpointIps: &#39;10.126.145.5,10.126.145.13,10.126.145.17&#39;
+    monitoring: true
+    port: 2379
+    tlsEnable: true
+
+验证 此处可以看到etcd 已经被监控上
+点击平台管理---监控告警---集群状态
+ 
+</code></pre></div>
+
+    
+    
+    
+
+    
+    
+        <h4 class="page-header">Comments</h4>
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "username" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

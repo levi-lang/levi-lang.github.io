@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Minimal</title>
+    <link>https://levi-lang.github.io/</link>
+    <description>Recent content on Minimal</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 17 Jul 2022 08:14:11 +1000</lastBuildDate><atom:link href="https://levi-lang.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>blog 搭建: hugo</title>
+      <link>https://levi-lang.github.io/post/blog/</link>
+      <pubDate>Sun, 17 Jul 2022 08:14:11 +1000</pubDate>
+      
+      <guid>https://levi-lang.github.io/post/blog/</guid>
+      <description>参考地址 hugo主题: https://themes.gohugo.io/ minimal: https://themes.gohugo.io/themes/minimal/ 安装hugo Mac 安装Hugo brew install hugo 创建blog hugo new site blog cd blog 下载主题 git submodule add https://github.com/calintat/minimal.git themes/minimal git submodule init git submodule update git submodule update --remote themes/minimal cp themes/minimal/exampleSite/config.toml . 编辑文章 mkdir -p blog/content/post cd blog/content/post vim blog.md 启动测试 cd blog hugo server 上传github </description>
+    </item>
+    
+    <item>
+      <title>kubernetes 部署工具: kubekey</title>
+      <link>https://levi-lang.github.io/post/kubekey/</link>
+      <pubDate>Sat, 16 Jul 2022 03:46:11 +0100</pubDate>
+      
+      <guid>https://levi-lang.github.io/post/kubekey/</guid>
+      <description>kubernetes 安装的方式 二进制 minikube kind kubeadm kubespray sealos kubeasz kubekey KOPS k3s rancher 每台机器必须要安装 yum install socat ipvsadm conntrack -y systemctl stop postfix &amp;amp;&amp;amp; systemctl disable postfix systemctl stop firewalld &amp;amp;&amp;amp; systemctl disable firewalld setenforce 0 &amp;amp;&amp;amp; sed -i &amp;#39;s/^SELINUX=.*/SELINUX=disabled/&amp;#39; /etc/selinux/config curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun vim /etc/docker/daemon.json { &amp;#34;log-driver&amp;#34;:&amp;#34;json-file&amp;#34;, &amp;#34;log-opts&amp;#34;: {&amp;#34;max-size&amp;#34;:&amp;#34;9G&amp;#34;, &amp;#34;max-file&amp;#34;:&amp;#34;3&amp;#34;}, &amp;#34;registry-mirrors&amp;#34;: [&amp;#34;https://7a1tnjfc.mirror.aliyuncs.com&amp;#34;], &amp;#34;data-root&amp;#34;:&amp;#34;/data/docker&amp;#34;, &amp;#34;dns&amp;#34; : [&amp;#34;114.114.114.114&amp;#34;,&amp;#34;8.8.8.8&amp;#34;] } systemctl daemon-reload &amp;amp;&amp;amp; systemctl restart docker &amp;amp;&amp;amp; systemctl enable docker 使用kubekey 安装 参考地址: github: https://github.</description>
+    </item>
+    
+  </channel>
+</rss>

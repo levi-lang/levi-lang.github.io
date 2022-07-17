@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://levi-lang.github.io/post/blog/</loc>
+    <lastmod>2022-07-17T08:14:11+10:00</lastmod>
+  </url><url>
+    <loc>https://levi-lang.github.io/</loc>
+    <lastmod>2022-07-17T08:14:11+10:00</lastmod>
+  </url><url>
+    <loc>https://levi-lang.github.io/post/</loc>
+    <lastmod>2022-07-17T08:14:11+10:00</lastmod>
+  </url><url>
+    <loc>https://levi-lang.github.io/post/kubekey/</loc>
+    <lastmod>2022-07-16T03:46:11+01:00</lastmod>
+  </url><url>
+    <loc>https://levi-lang.github.io/categories/</loc>
+  </url><url>
+    <loc>https://levi-lang.github.io/tags/</loc>
+  </url>
+</urlset>
