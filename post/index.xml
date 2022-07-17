@@ -13,7 +13,7 @@
       <pubDate>Sun, 17 Jul 2022 08:14:11 +1000</pubDate>
       
       <guid>https://levi-lang.github.io/post/blog/</guid>
-      <description>参考地址 hugo主题: https://themes.gohugo.io/ minimal: https://themes.gohugo.io/themes/minimal/ 安装hugo Mac 安装Hugo brew install hugo 创建blog hugo new site blog cd blog 下载主题 git submodule add https://github.com/calintat/minimal.git themes/minimal git submodule init git submodule update git submodule update --remote themes/minimal cp themes/minimal/exampleSite/config.toml . 编辑文章 mkdir -p blog/content/post cd blog/content/post vim blog.md 启动测试 cd blog hugo server 上传github </description>
+      <description>参考地址 hugo主题: https://themes.gohugo.io/ minimal: https://themes.gohugo.io/themes/minimal/ 安装hugo Mac 安装Hugo brew install hugo 创建blog hugo new site blog cd blog 下载主题 git submodule add https://github.com/calintat/minimal.git themes/minimal git submodule init git submodule update git submodule update --remote themes/minimal cp themes/minimal/exampleSite/config.toml . 编辑文章 mkdir -p blog/content/post cd blog/content/post vim blog.md 启动测试 cd blog hugo server 生成blog cd blog hugo --theme=Minimal --baseUrl=&amp;#34;https://levi-lang.github.io&amp;#34; --buildDrafts 执行完上面的命令 会在blog 目录下的public文件夹中生成网页 上传github cd blog/public git init git add . git commit -m &amp;#34;test&amp;#34; git remote add origin https://github.</description>
     </item>
     
     <item>

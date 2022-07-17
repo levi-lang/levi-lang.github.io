@@ -159,8 +159,48 @@ vim blog.md
 </code></pre><h1 id="启动测试">启动测试</h1>
 <pre tabindex="0"><code>cd blog
 hugo server
+</code></pre><h1 id="生成blog">生成blog</h1>
+<pre tabindex="0"><code>cd blog
+hugo --theme=Minimal --baseUrl=&#34;https://levi-lang.github.io&#34; --buildDrafts
+执行完上面的命令 会在blog 目录下的public文件夹中生成网页
 </code></pre><h1 id="上传github">上传github</h1>
-<pre tabindex="0"><code></code></pre></div>
+<pre tabindex="0"><code>cd blog/public
+git init
+git add .
+git commit -m &#34;test&#34;
+git remote add origin https://github.com/levi-lang/levi-lang.github.io.git
+git push -u origin main
+</code></pre><h1 id="问题1">问题1</h1>
+<pre tabindex="0"><code>mac 会弹窗出来git credential osxkeychain
+这个时候
+打开 Finder / Applications 在搜索栏输入 Keychain Access，选择在 Application 中搜索
+Keychain Access
+打开钥匙串
+删除 github.com 或者 gitee.com
+然后从新推送执行 git push -u origin main
+输入账号  和 密码
+</code></pre><h1 id="问题2">问题2</h1>
+<pre tabindex="0"><code>当输入账号和密码后 会出现如下报错
+remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead.        
+remote: Please see https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information.  
+fatal: &#39;https://github.com/levi-lang/levi-lang.github.io.git/&#39; 鉴权失败            
+
+大致意思：密码验证于2021年8月13日不再支持
+请使用token的方式验证
+
+打开自己的GitHub主页
+点击自己的头像找到Settings并进入
+在左边目录栏找到Developer settings---Personal access tokens
+点击Generate new token
+然后输入你的github登录账号 把权限勾选上 点击创建就好了
+最后再次推送
+</code></pre><h1 id="关于token">关于token</h1>
+<pre tabindex="0"><code>关于token 可以设置在本地
+不用每次推送都输入账号密码
+</code></pre><h1 id="访问自己的blog">访问自己的blog</h1>
+<pre tabindex="0"><code>没有用复杂的主题 所以很简陋 不过整个过程还是很愉快
+地址: https://levi-lang.github.io/
+</code></pre></div>
 
     
     
