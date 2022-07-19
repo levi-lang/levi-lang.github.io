@@ -2,13 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://levi-lang.github.io/post/blog/</loc>
-    <lastmod>2022-07-17T08:14:11+10:00</lastmod>
+    <loc>https://levi-lang.github.io/post/prometheus/</loc>
+    <lastmod>2022-07-18T04:39:11+01:00</lastmod>
   </url><url>
     <loc>https://levi-lang.github.io/</loc>
-    <lastmod>2022-07-17T08:14:11+10:00</lastmod>
+    <lastmod>2022-07-18T04:39:11+01:00</lastmod>
   </url><url>
     <loc>https://levi-lang.github.io/post/</loc>
+    <lastmod>2022-07-18T04:39:11+01:00</lastmod>
+  </url><url>
+    <loc>https://levi-lang.github.io/post/ingress/</loc>
+    <lastmod>2022-07-17T10:31:11+01:00</lastmod>
+  </url><url>
+    <loc>https://levi-lang.github.io/post/blog/</loc>
     <lastmod>2022-07-17T08:14:11+10:00</lastmod>
   </url><url>
     <loc>https://levi-lang.github.io/post/kubekey/</loc>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>kubernetes 部署ingress: nginx</title>
+        
+        <style>
+
+    html body {
+        font-family: 'Raleway', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: red;
+        --border-width:  5px ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="https://levi-lang.github.io/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"> 
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scala.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/swift.min.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.101.0" />
+        
+
+        
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        
+
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#">kubernetes 部署ingress: nginx</a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                        <ul class="nav navbar-nav">
+                            
+                                <li><a href="/">Home</a></li>
+                            
+                                <li><a href="/about/">About</a></li>
+                            
+                                <li><a href="/post/">Posts</a></li>
+                            
+                                <li><a href="/project/">Projects</a></li>
+                            
+                        </ul>
+                    
+                    
+                        <ul class="nav navbar-nav navbar-right">
+                            
+                                <li class="navbar-icon"><a href="mailto:me@example.com"><i class="fas fa-envelope"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://github.com/username/"><i class="fab fa-github"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://twitter.com/username/"><i class="fab fa-twitter"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://www.linkedin.com/in/username/"><i class="fab fa-linkedin"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://www.stackoverflow.com/username/"><i class="fab fa-stack-overflow"></i></a></li>
+                            
+                        </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2>kubernetes 部署ingress: nginx</h2>
+        <h5>July 17, 2022</h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="kubernetes-ingress">kubernetes ingress</h1>
+<pre tabindex="0"><code>Kubernetes Ingress 只是 Kubernetes 中的一个普通资源对象
+需要一个对应的 Ingress Controller 来解析 Ingress 的规则，暴露服务到外部
+比如 ingress-nginx，本质上来说它只是一个 Nginx Pod
+然后将请求重定向到其他内部（ClusterIP）服务去
+这个 Pod 本身也是通过 Kubernetes 服务暴露出去，最常见的方式是通过 LoadBalancer 来实现的
+</code></pre><h1 id="ingress-种类">ingress 种类</h1>
+<ul>
+<li>kubernetes Ingress Controller: # Kubernetes 的“官方”控制器</li>
+<li>nginx-ingress: # 这是 NGINX 公司开发的官方产品，它也有一个基于 NGINX Plus 的商业版</li>
+<li>traefik: # 最初，这个代理是为微服务请求及其动态环境的路由而创建的，因此具有许多有用的功能</li>
+<li>apisix: # apisix-ingress-controller 是另一个使用Apache APISIX作为高性能反向代理</li>
+<li>Kong Ingress: # Kong Ingress 由 Kong Inc 开发，有两个版本：商业版和免费版</li>
+<li>HAProxy Ingress: # HAProxy 是众所周知的代理服务器和负载均衡器</li>
+<li>Voyager: # Voyager 基于 HAProxy，并作为一个通用的解决方案提供给大量供应商</li>
+<li>Contour: # Contour 和 Envoy 由同一个作者开发，它基于Envoy</li>
+<li>Istio Ingress # Istio 是 IBM、Google 和 Lyft 的联合开发项目，它是一个全面的服务网格解决方案</li>
+<li>Ambassador: # Ambassador 也是一个基于 Envoy 的解决方案，它有免费版和商业版两个版本</li>
+<li>Gloo: # Gloo 是在 Envoy 之上构建的新软件 于2018年3月发布</li>
+</ul>
+<h1 id="kubernetes-中的服务暴露方式">kubernetes 中的服务暴露方式</h1>
+<pre tabindex="0"><code>待补充
+</code></pre><h1 id="安装nginx-ingress">安装nginx-ingress</h1>
+<pre tabindex="0"><code>1 首先登录kubesphere
+2 创建企业空间
+  平台管理---访问控制---创建
+3 进入企业空间---应用管理---应用仓库---添加
+4 名称: nginx
+  URL: https://kubernetes.github.io/ingress-nginx
+5 管理平台---访问控制---企业空间---项目---test
+  应用负载---应用---创建---从应用模板---选择应用仓库---选择自己刚创建的nginx
+6 其中要调节很多参数 待补充
+</code></pre><h1 id="负载均衡器">负载均衡器</h1>
+<pre tabindex="0"><code>私有云裸金属架构（这里是相对云上环境来说，不是说无操作系统）上部署的 Kubernetes 集群
+通常是无法使用 LoadBalancer 类型的 Service 的
+因为 Kubernetes 本身没有为裸机群集提供网络负载均衡器（类型为 LoadBalancer 的服务）的实现
+如果你的 Kubernetes 集群没有在公有云的 IaaS 平台（GCP，AWS，Azure …）上运行
+则 LoadBalancers 将在创建时无限期地保持 “挂起” 状态
+也就是说只有公有云厂商自家的 Kubernetes 支持 LoadBalancer
+
+为了从外部访问裸机 Kubernetes 群集，目前只能使用 NodePort 或 Ingress 的方法进行服务暴露
+前者的缺点是每个暴露的服务需要占用所有节点的某个端口，后者的缺点是仅仅能支持 HTTP 协议
+</code></pre><h1 id="负载均衡器种类">负载均衡器种类</h1>
+<ul>
+<li>MetalLB: # 流行的和最知名的 LoabBalancer Controller</li>
+<li>PureLB: # 最新加入的</li>
+<li>OpenELB: # 之前叫：Porter 一个相对较近的新增项目</li>
+</ul>
+<h1 id="安装openelb">安装Openelb</h1>
+<pre tabindex="0"><code>参考地址: https://openelb.io/docs/overview/
+安装方式
+一: kubesphere
+二: helm
+三: yaml
+
+通过kubesphere安装（此反正方式是为了熟悉kubesphere操作）
+1 首先登录kubesphere
+2 创建企业空间
+  平台管理---访问控制---创建
+3 进入企业空间---应用管理---应用仓库---添加
+4 名称: openelb
+  URL: charts.kubesphere.io/test
+  确定
+5 管理平台---访问控制---企业空间---项目---test
+  应用负载---应用---创建---从应用模板---选择应用仓库---选择自己刚创建的openelb
+6 pod的探针是个bug 需要去掉从yaml中不然会不停的告警
+  
+通过helm安装
+略
+
+通过yaml安装
+略
+</code></pre><h1 id="配置多个-openelb-副本">配置多个 OpenELB 副本</h1>
+<pre tabindex="0"><code>登录Kubernetes集群，执行如下命令，为需要安装OpenELB的Kubernetes集群节点打上标签
+kubectl label --overwrite nodes master1 worker-p002 lb.kubesphere.io/v1alpha1=openelb
+
+运行以下命令将 openelb-manager Pod 的数量缩放为 0
+kubectl scale deployment openelb-manager --replicas=0 -n openelb-system
+
+运行以下命令来编辑 openelb-manager 部署
+kubectl edit deployment openelb-manager -n openelb-system
+
+在 openelb-manager 部署 YAML 配置中，在 下添加以下字段spec:template:spec
+nodeSelector:
+ kubernetes.io/os: linux
+ lb.kubesphere.io/v1alpha1: openelb
+
+运行以下命令将 openelb-manager Pod 的数量缩放到所需的数量（将数量更改2为实际值）
+kubectl scale deployment openelb-manager --replicas=2 -n openelb-system
+
+运行以下命令检查是否已在所需节点上安装了 OpenELB
+kubectl get po -n openelb-system -o wide
+</code></pre><h1 id="测试一openelb暴露内网服务">测试一openelb暴露内网服务</h1>
+<h4 id="创建eip地址池">创建EIP地址池</h4>
+<pre tabindex="0"><code>apiVersion: network.kubesphere.io/v1alpha2
+kind: Eip
+metadata:
+    name: eip-pool
+    annotations:
+      eip.openelb.kubesphere.io/is-default-eip: &#34;true&#34;
+spec:
+    address: 192.168.18.100-192.168.18.110
+    protocol: layer2
+    interface: ens33
+    disable: false
+</code></pre><h4 id="更改kubesphere-service-类型">更改kubesphere service 类型</h4>
+<pre tabindex="0"><code>平台管理---集群管理---项目---系统项目
+kubesphere-system---服务---ks-console
+更多操作---编辑外部访问---LoadBalancer
+添加
+lb.kubesphere.io/v1alpha1  openelb
+protocol.openelb.kubesphere.io/v1alpha1  layer2
+eip.openelb.kubesphere.io/v1alpha2  eip-pool
+
+查看分配的IP
+kubectl edit eip 
+kubectl describe eip
+
+最后访问分配的地址
+</code></pre><h1 id="acme">ACME</h1>
+<pre tabindex="0"><code>现在我们访问大多数网站的时候
+他们的网站前面都会显示一个HTTPS的字样
+这就代表该网站是使用的SSL证书加密的
+而SSL证书是需要权威的专门机构颁发的
+那么这个颁发过程又是怎样的呢？
+今天，我们就来详细聊聊ACME协议
+
+当我们通过浏览器访问某一网站时，通常分为两种形式
+一种是HTTP明文传输，一种是HTTPS加密传输
+
+这个过程的关键环节就是第一步，也就是证书的可靠性
+网站管理者的首要工作就是向权威颁发机构申请一个SSL证书，并且在网站服务器上做好相应配置
+我们来看看网站管理者需要做的工作
+
+发起一个SSL证书颁发申请
+在这一步，我们需要向证书颁发机构提交我们的域名，以表明我们想为哪个域名申请SSL证书
+证明自己是这个域名的拥有者
+在这一步，一旦我们向权威颁发机构证明了自己确实是这个域名的拥有者
+他们就会为我们颁发一个SSL证书
+获取证书并在网站服务器做好相应配置
+
+正是由于以上人工管理SSL证书的的诸多不变
+催生了ACME协议的诞生，它使我们能够在没有任何人为干预的情况下，从证书颁发机构即时获取证书
+
+ACME协议是由著名的Let&#39;s Encrypt开发的，它是一个免费的证书颁发机构
+ACME协议有两个关键部分
+一个是ACME客户端
+一个是ACME服务端
+ACME服务端是一个证书颁发机构，能够自动颁发签名证书
+比如，Let&#39;s Encrypt就是一个ACME服务端
+ACME客户端通常在web服务器上运行，它向ACME服务端证明web服务器确实控制了它想要获取证书的域名
+一旦证明了这一点，ACME客户端就可以请求、续签和吊销证书
+</code></pre><h1 id="cert-manager">cert-manager</h1>
+<pre tabindex="0"><code>由于nginx-ingress 和apisix 没有ACME功能（只有traefik可以开启ACME）
+那么就需要用到cert-manager 来实现ACME的功能了
+
+cert-manager 是一个云原生证书管理开源项目，证书管理器
+cert-manager 将证书和证书颁发者作为资源类型添加到 Kubernetes 集群中
+并简化了获取、更新和使用这些证书的过程
+
+它可以从各种受支持的来源颁发证书
+包括 Let&#39;s Encrypt、HashiCorp Vault 和 Venafi 以及私有 PKI
+并确保证书保持有效和最新，并尝试在到期前的适当时间更新证书
+
+参考网址: https://cert-manager.io/docs/
+
+安装
+不需要对 cert-manager 安装参数进行任何调整
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+
+配置
+cert-manager以开始颁发证书
+必须先创建Issuer或ClusterIssuer资源
+这些资源代表特定的签名机构
+并详细说明如何满足证书请求
+Issuer只能用来签发自己所在namespace下的证书
+ClusterIssuer可以签发任意namespace下的证书
+
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+metadata.name 创建的签发机构的名称，创建证书的时候会引用
+spec.acme.email 邮箱，证书快过期的时候会有邮件提醒，不过cert-manager会利用acme协议自动给我们重新颁发证书来续期
+spec.acme.server acme 协议的服务端，由官方给出
+spec.acme.privateKeySecretRef 指示此签发机构的私钥将要存储到哪个Secret对象中
+spec.acme.solvers.http01 指示签发机构使用HTTP-01的方式进行acme协议 
+还可以用DNS方式，acme协议的目的是证明这台机器和域名都是属于你的，然后才准许给你颁发证书
+
+为域名创建certificate(证书)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: blog
+  namespace: default
+spec:
+  secretName: blog-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  duration: 2160h
+  renewBefore: 360h
+  dnsNames:
+  - blog.ssgeek.com
+
+spec.secretName 指示证书最终存到哪个 Secret 中spec.issuerRef.kind 值为 ClusterIssuer 
+说明签发机构不在本 namespace 下，而是在全局
+spec.issuerRef.name 我们创建的签发机构的名称 (ClusterIssuer.metadata.name)
+spec.duration 证书过期时间
+spec.renewBefore 在过期前自动更新
+spec.dnsNames 指示该证书的可以用于哪些域名
+
+
+注意: 
+1、Issuer和ClusterIssuer的区别
+2、acme协议有http和dns两种 如果使用的话最好用DNS
+3、如果ingress 编写的时候配置了cert-manager 自动签发的annotations 
+   那么不需要创建Certificate 资源对象
+</code></pre><h1 id="测试二openelb外部访问">测试二openelb外部访问</h1>
+<pre tabindex="0"><code>1 购买域名
+2 通过域名面板 把域名指向相应openelb的服务器（在云上指向SLB负载均衡器，此处为单点）
+  当然一个域名也可以解析多个IP地址
+3 创建相应的ingress配置
+  需要注意两点
+    1、配置openelb相应的annotations 
+    2、配置cert-manager相应的annotations
+4 验证访问
+</code></pre><h1 id="测试三openelb-长链接">测试三openelb 长链接</h1>
+<pre tabindex="0"><code>暂无思路
+需要开发  但是为什么自己不能够呢 
+</code></pre></div>
+
+    
+    
+    
+
+    
+    
+        <h4 class="page-header">Comments</h4>
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "username" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+
