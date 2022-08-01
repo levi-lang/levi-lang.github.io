@@ -135,7 +135,165 @@
 
     </div>
 
-    <div align="start" class="content"><h1 id="kubesphere-监控">kubesphere 监控</h1>
+    <div align="start" class="content"><h1 id="参考地址">参考地址：</h1>
+<pre tabindex="0"><code>https://www.kancloud.cn/panxin20/notes/1923544
+https://prometheus-operator.dev/docs/prologue/introduction/
+</code></pre><h1 id="监控原则">监控原则</h1>
+<pre tabindex="0"><code>1、监控是基础设施，目的是为了解决问题
+不要只朝着大而全去做，尤其是不必要的指标采集
+浪费人力和存储资源（To B商业产品例外）
+
+2、需要处理的告警才发出来，发出来的告警必须得到处理
+
+3、简单的架构就是最好的架构，业务系统都挂了，监控也不能挂
+Google Sre 里面也说避免使用 Magic 系统，例如机器学习报警阈值、自动修复之类
+这一点见仁见智吧，感觉很多公司都在搞智能 AI 运维
+</code></pre><h1 id="原理">原理</h1>
+<pre tabindex="0"><code>Prometheus从exporter拉取数据，或者间接地通过网关gateway拉取数据
+如果在k8s内部署，可以使用服务发现的方式
+它默认本地存储抓取的所有数据，并通过一定规则进行清理和整理数据
+并把得到的结果存储到新的时间序列中，采集到的数据有两个去向
+一个是报警，另一个是可视化
+PromQL和其他API可视化地展示收集的数据，并通过Alertmanager提供报警能力
+输出被监控组件信息的HTTP接口被叫做exporter 
+目前互联网公司常用的组件大部分都有exporter可以直接使用
+比如Varnish、Haproxy、Nginx、MySQL、Linux系统信息包括磁盘、内存、CPU、网络等等
+</code></pre><h1 id="endpoint">endpoint</h1>
+<pre tabindex="0"><code>endpoint是k8s集群中的一个资源对象，存储在etcd中，用来记录一个service对应的所有pod的访问地址。
+service配置selector，endpoint controller才会自动创建对应的endpoint对象；
+否则，不会生成endpoint对象.
+</code></pre><h1 id="部署方式">部署方式</h1>
+<pre tabindex="0"><code>二进制
+容器
+Kubernetes Deployment 
+Helm Kubernetes package manager
+Operator
+ prometheus-operator(官方：无内置规则)
+ kube-prometheus(官方：有内置规则) 
+</code></pre><h1 id="prometheus的局限">prometheus的局限</h1>
+<pre tabindex="0"><code>1、Prometheus 是基于 Metric 的监控，不适用于日志（Logs）、事件(Event)、调用链(Tracing)。
+2、Prometheus 默认是 Pull 模型，合理规划你的网络，尽量不要转发。
+3、对于集群化和水平扩展，官方和社区都没有银弹，需要合理选择 Federate、Cortex、Thanos等方案。
+4、监控系统一般情况下可用性大于一致性，容忍部分副本数据丢失，保证查询请求成功
+5、Prometheus 不一定保证数据准确
+   这里的不准确一是指 rate、histogram_quantile 等函数会做统计和推断
+   产生一些反直觉的结果，这个后面会详细展开
+   二来查询范围过长要做降采样，势必会造成数据精度丢失
+   不过这是时序数据的特点，也是不同于日志系统的地方。
+</code></pre><h1 id="合理选择黄金指标">合理选择黄金指标</h1>
+<pre tabindex="0"><code>采集的指标有很多，我们应该关注哪些？
+Google 在“Sre Handbook”中提出了“四个黄金信号”：延迟、流量、错误数、饱和度。
+实际操作中可以使用 Use 或 Red 方法作为指导，Use 用于资源，Red 用于服务
+
+Use 方法：Utilization、Saturation、Errors。如 Cadvisor 数据
+Red 方法：Rate、Errors、Duration。如 Apiserver 性能指标
+</code></pre><h1 id="prometheus-采集中常见的服务分三种">Prometheus 采集中常见的服务分三种：</h1>
+<pre tabindex="0"><code>在线服务：
+  如 Web 服务、数据库等，一般关心请求速率，延迟和错误率即 RED 方法
+离线服务：
+  如日志处理、消息队列等，一般关注队列数量、进行中的数量，处理速度以及发生的错误即 Use 方法
+批处理任务：
+  和离线任务很像，但是离线任务是长期运行的
+  批处理任务是按计划运行的，如持续集成就是批处理任务
+  对应 K8S 中的 job 或 cronjob
+  一般关注所花的时间、错误数等，因为运行周期短，很可能还没采集到就运行结束了
+  所以一般使用 Pushgateway，改拉为推
+</code></pre><h1 id="hpa">HPA</h1>
+<pre tabindex="0"><code>Horizontal Pod Autoscaling，简称HPA，是Kubernetes中实现POD水平自动伸缩的功能。
+它可以根据CPU使用率或应用自定义metrics自动扩展Pod数量
+支持 replication controller、deployment 和 replica set
+
+v1.11+HPA从metric-server获取监控数据
+
+工作流程
+1.创建HPA资源，设定目标CPU使用率限额，以及最大、最小实例数
+  一定要设置Pod的资源限制参数: request, 否则HPA不会工作。
+2.控制管理器每隔30s
+  可以通过–horizontal-pod-autoscaler-sync-period修改 查询metrics的资源使用情况
+3.然后与创建时设定的值和指标做对比(平均值之和/限额)
+  求出目标调整的实例个数
+4.目标调整的实例数不能超过1中设定的最大、最小实例数，如果没有超过，则扩容
+  超过，则扩容至最大的实例个数
+</code></pre><h1 id="k8s监控指标及实现思路">K8S监控指标及实现思路</h1>
+<pre tabindex="0"><code>cAdvisor 是谷歌开源的一款通用的容器监控解决方案
+并且 Kubernetes 也集成了 cAdvisor 作为容器监控指标的默认工具
+k8s后面使用metrics server代替cADvisor了
+
+Metrics server定时从Kubelet的Summary API
+类似/ap1/v1/nodes/nodename/stats/summary 采集指标信息
+这些聚合过的数据将存储在内存中，且以metric-api的形式暴露出去。
+metric-server是从api-server中获取cpu、内存使用率这种监控指标kubectl top
+并把他们发送给存储后端，如influxdb或云厂商
+他当前的核心作用是：为HPA等组件提供决策指标支持。
+heapster 是早期HPA 的组件
+现由metric-server实现
+
+kubernetes的监控指标分为两种：
+Core metrics(核心指标)：
+  由kubelet、metrics-server以及由API server提供的api组成
+  仅提供Node和Pod的CPU累积使用率、内存实时使用率、Pod的资源占用率及容器的磁盘占用率
+  再由metrics-server提供给 Dashboard、HPA 控制器等使用。（核心指标不适合委托给第三方）
+Custom Metrics(自定义指标)：
+  由Prometheus Adapter提供API custom.metrics.k8s.io，自定义指标本身不能被k8s所解析
+  从其他数据源（如 Node Exporter 等）获取自定义指标，由此可支持任意Prometheus采集到的指标。
+
+Prometheus可以采集其它各种指标，但是prometheus采集到的metrics并不能直接给k8s用
+因为两者数据格式不兼容，因此还需要另外一个组件(kube-state-metrics)
+将prometheus的metrics数据格式转换成k8s API接口能识别的格式
+转换以后，因为是自定义API
+所以还需要用Kubernetes aggregator在主API服务器中注册，以便直接通过/apis/来访问
+kube-state-metrics是为prometheus采集k8s资源数据的exporter
+
+Prometheus作为一个监控使用也作为一些特殊资源指标的提供者来使用
+不过这些指标不是内建的标准核心指标，即自定义指标
+要想把监控采集的数据转成指标格式需要个特殊的组件叫k8s-prometheus-adapter
+
+metric-server，几乎容器运行的所有指标都能拿到，但是下面这种情况却无能为力：
+我调度了多少个replicas？现在可用的有几个？
+多少个Pod是running/stopped/terminated状态？
+Pod重启了多少次？
+我有多少job在运行中
+而这些则是kube-state-metrics提供的内容
+它基于client-go开发，轮询Kubernetes API，并将Kubernetes的结构化信息转换为metrics。
+
+与metric-server的对比
+  metric-server是从api-server中获取cpu、内存使用率这种监控指标
+  并把他们发送给存储后端，如influxdb或云厂商
+  他当前的核心作用是：为HPA等组件提供决策指标支持
+
+  kube-state-metrics关注于获取k8s各种资源的最新状态
+  如deployment或者daemonset，之所以没有把kube-state-metrics纳入到metric-server的能力中
+  是因为他们的关注点本质上是不一样的。
+  metric-server仅仅是获取、格式化现有数据，写入特定的存储，实质上是一个监控系统。
+  而kube-state-metrics是将k8s的运行状况在内存中做了个快照
+  并且获取新的指标，但他没有能力导出这些指标
+
+  换个角度讲，kube-state-metrics本身是metric-server的一种数据来源，虽然现在没有这么做。
+
+  另外，像Prometheus这种监控系统，并不会去用metric-server中的数据，
+  他都是自己做指标收集、集成的（Prometheus包含了metric-server的能力）
+  但Prometheus可以监控metric-server本身组件的监控状态并适时报警
+  这里的监控就可以通过kube-state-metrics来实现，如metric-serverpod的运行状态。
+
+Prometheus可以从Kubernetes集群的各个组件中采集数据，
+比如kubelet中自带的cadvisor，api-server等，而node-export就是其中一种来源
+Exporter是Prometheus的一类数据采集组件的总称。
+它负责从目标处搜集数据，并将其转化为Prometheus支持的格式。与传统的数据采集组件不同的是，
+它并不向中央服务器发送数据，而是等待中央服务器主动前来抓取，
+默认的抓取地址为http://CURRENT_IP:9100/metrics
+
+
+
+kubesphere里面要监控组件
+prometheus：监控服务端，从node-exporter拉数据并存储为时序数据。
+k8s-prometheus-adpater：聚合进apiserver，即一种custom-metrics-apiserver实现
+
+1、cadvisor(metric-server)   # k8s原生自带的 kubekey安装好集群自动开启的
+2、metric-server(heapster)   # 监控pod 主要提供HPA功能做依赖  需要主动开启 开启后只有一个
+1、node_exporter             # 监控宿主机
+2、kube-state-metrics        # 监控资源对象状态
+                             # 将prometheus中可以用PromQL查询到的指标数据转换成k8s对应的数据
+</code></pre><h1 id="kubesphere-监控">kubesphere 监控</h1>
 <pre tabindex="0"><code>kubesphere监控系统
 安装好kubesphere就生成
 
@@ -149,6 +307,19 @@ kubesphere 审计日志
 需要在kubesphere中开启
 
 HPA 同样需要在kubesphere中开启
+KubeSphere 支持用于部署的容器组（Pod）弹性伸缩程序 (HPA)。
+在 KubeSphere 中，Metrics Server 控制着 HPA 是否启用。
+您可以根据不同类型的指标（例如 CPU 和内存使用率，以及最小和最大副本数）
+使用 HPA 对象对部署 (Deployment) 自动伸缩
+通过这种方式，HPA 可以帮助确保您的应用程序在不同情况下都能平稳、一致地运行
+
+metrics_server:
+  enabled: true # 将“false”更改为“true”。
+
+验证组件的安装
+kubectl get pod -n kube-system | grep metrics-server
+NAME                                        READY   STATUS    RESTARTS   AGE
+metrics-server-6c767c9f94-hfsb7             1/1     Running   0          9m38s
 
 
 Prometheus 的告警分为两部分。
@@ -219,6 +390,298 @@ thanos-ruler-kubesphere-1                          2/2
 目前有五种通知形式
 具体参照官网进行配置
 webhokk、邮件、钉钉、企业微信、slack
+</code></pre><h1 id="内置prometheus-必要须知">内置prometheus 必要须知</h1>
+<pre tabindex="0"><code>如何访问 KubeSphere Prometheus 控制台
+请运行以下命令将服务类型更改为 NodePort
+kubectl edit svc -n kubesphere-monitoring-system prometheus-k8s
+
+Node Exporter 引起的主机端口 9100 冲突
+如果有进程占用主机端口 9100，kubespher-monitoring-system 下的 Node Exporter 会崩溃
+kubectl edit ds -n kubesphere-monitoring-system node-exporter
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-exporter
+  namespace: kubesphere-monitoring-system
+  ...
+spec:
+  ...
+  template:
+    ...
+    spec:
+      containers:
+      - name: node-exporter
+        image: kubesphere/node-exporter:ks-v0.18.1
+        args:
+        - --web.listen-address=127.0.0.1:9100
+        ...
+      - name: kube-rbac-proxy
+        image: kubesphere/kube-rbac-proxy:v0.4.1
+        args:
+        - --logtostderr
+        - --secure-listen-address=[$(IP)]:9100
+        - --upstream=http://127.0.0.1:9100/
+        ...
+        ports:
+        - containerPort: 9100
+          hostPort: 9100
+ ...
+
+如何更改监控数据保留期限
+导航到 retention 字段，并设置所需保留期限（默认为 7d）
+kubectl edit prometheuses -n kubesphere-monitoring-system k8s
+
+prometheus使用的configmap修改后，k8s中的pod并不会自动重新读取，需要使用reload
+curl -X POST &#34;http://10.96.112.113:9090/-/reload&#34;
+# 端口自行判断
+</code></pre><h1 id="prometheus-架构图">prometheus 架构图</h1>
+<p><img src="https://img-blog.csdnimg.cn/20210120105815827.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTk0OTcxNA==,size_16,color_FFFFFF,t_70" alt="avatar"></p>
+<pre tabindex="0"><code>引申prometheus架构图的原因在于
+当prometheus以operator的形式安装在kubernetes中
+那么所有的组件都变成了资源对象的形式
+所以需要梳理一下 方便理解 以及管控kubesphere中的prometheus的监控与告警
+
+1、常规：prometheus监控节点、程序 会写入配置文件 或自动发现
+   k8s：应该如何获取/metrics数据呢？
+
+例如DaemonSet部署node_exporter 在几个几点上面
+如果通过一个service将数据收集到一个静态配置的方式
+配置到prometheus中去 只会显示一条数据 
+
+那就需要用到服务发现模式了
+在kubernetes下 prometheus 通过与kubernetes API 集成
+常规请求
+kubectl-&gt; request-&gt; apiserver(nodes)-&gt; etcd
+常规请求缓存（减少apiserver压力）
+kubectl-&gt; listAndwatch(cache)-&gt; etcd(保持一致)
+
+能有效获取数据后
+其中监控k8s中的业务资源分两种
+1、有exporter
+   在kubesphere中需要找到对应的service
+   应用负载---服务---更多操作---编辑监控导出器
+   如外部业务 需要自己创建service和endpoints 
+   如内部业务 只需要创建ServiceMonitor
+
+2、无exporter
+   在kubesphere中自动监控cpu 内存 磁盘 
+
+
+目前主要支持6种服务发现模式
+1、node
+   - job_name: &#39;nodes&#39;
+     kubernetes_sd_configs:
+     - role: node
+     relabel_configs:               # 对服务发现的目标进行重新标记
+     - source_labels: [__address__] # 要修改的源标签
+       regex: &#39;(.*):10250&#39;          # 正则匹配这个地址
+       replacement: &#39;${1}:9100&#39;     # 要过后的值
+       target_label: __address__    # 修改后的地址
+       action: replace              # 动作代替
+
+2、service
+3、pod
+4、endpoints
+5、endpointslice
+6、ingress
+
+
+查看prometheus pod里面会有三个容器
+1、init-config-reloader 初始化时存在
+
+2、prometheus 以下是挂载点
+- mountPath: /etc/prometheus/config_out
+  name: config-out
+  # 配置文件挂载目录
+                                       
+- mountPath: /etc/prometheus/certs
+  name: tls-assets
+  # 证书
+
+- mountPath: /prometheus
+  name: prometheus-k8s-db                                                                                     
+  # 数据目录
+
+- mountPath: /etc/prometheus/rules/prometheus-k8s-rulefiles-0
+  name: prometheus-k8s-rulefiles-0
+  # 高级规则、
+                                                                            
+- mountPath: /etc/prometheus/web_config/web-config.yaml
+  name: web-config
+  # 本质是个secret       
+
+- mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+  name: kube-api-access-xpfjg
+  # 这个挂载用了volumes projected
+  # 其中挂载了访问token ca证书 还有namespace下的 API信息
+
+
+3、config-reloader 
+- mountPath: /etc/prometheus/config
+  name: config
+  # 配置文件挂载目录
+  # 实际上是个secret 
+
+- mountPath: /etc/prometheus/config_out
+  name: config-out
+  # 配置文件挂载目录
+  # 实际上是个EmptyDir
+
+- mountPath: /etc/prometheus/rules/prometheus-k8s-rulefiles-0
+  name: prometheus-k8s-rulefiles-0
+  # 规则配置挂载目录
+  # 实际上是个ConfigMap
+  # kubectl get cm -n kubesphere-monitoring-system | grep prometheus-k8s-rulefiles-0
+  
+- mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+  name: kube-api-access-xpfjg
+  # 这个挂载用了volumes projected
+  # 其中挂载了访问token ca证书 还有namespace下的 API信息
+  
+其中监控k8s中的业务资源分两种
+1、有exporter
+   在kubesphere中需要找到对应的service
+   应用负载---服务---更多操作---编辑监控导出器
+2、无exporter
+   在kubesphere中自动监控
+</code></pre><h1 id="配置">配置</h1>
+<pre tabindex="0"><code>配置有两部分，一部分来自命令行的启动参数，一部分来自 prometheus.yml
+语法检查规则
+要在不启动Prometheus进程的情况下快速检查规则文件是否在语法上正确
+可以通过安装并运行Prometheus的promtool命令行工具来校验：
+go get github.com/prometheus/prometheus/cmd/promtool
+./promtool check rules prometheus.rules.yml 
+
+或者使用ansible中的playbook 命令行工具来校验
+ansible-playbook -v --syntax-check echo_test.yml
+
+# 全局配置
+global:
+  scrape_interval: 15s # 默认情况下抓取目标的频率
+  scrape_timeout: 10s # 抓取超时时间
+  evaluation_interval: 1m # 评估规则的频率
+  
+  # 全局的 external label, 当 prometheus (federation, remote storage, Alertmanager) 
+  # 和外部交互的时候很有用 . 举个例子：当多个prometheus数据聚合到同一个federation prometheus
+  # 或者 remote storage 的时候，可以加一个 id/cluster label作为区分
+  external_labels: # 暂时没用到
+    &lt;labelname&gt;: &lt;labelvalue&gt;
+
+  # 规则文件路径，规则分为两种
+  # 一种叫 recoding rule（记录规则）, 另一种叫 alter rule（告警规则）
+  # 他们都是 隔一段时间内部 evaluate （评估）一次
+  # 生成新的 metrics （指标）或者 产生 alter notification  
+  # 记录规则允许您预先计算经常需要或计算量大的表达式，并将其结果保存为一组新的时间序列。
+  # 查询预先计算的结果通常比每次需要时执行原始表达式要快得多。
+  # 这对于仪表板特别有用，仪表板每次刷新时都需要重复查询相同的表达式
+  query_log_file: &lt;string&gt;
+
+# 告警配置
+alerting: 
+  alertmanagers:
+    - static_configs:
+        - targets:
+
+# 规则配置
+rule_files:
+  - &#34;first_rules.yml&#34;
+
+# 配置数据源抓取配置列表，称为target，每个target用job_name命名
+# 又分为静态配置和服务发现
+scrape_configs:
+    # 默认分配给已抓取指标的job名称 
+    # 在所有抓取配置中必须是唯一的
+  - job_name: &#34;prometheus&#34;
+    static_configs: # 此作业的标记静态配置目标列表
+      - targets: [&#34;localhost:9090&#34;]
+    scrape_interval: 30 # 覆盖全局抓取目标的频率
+    scrape_timeout: 30s # 覆盖全局抓取超时时间
+    metrics_path: /metrics # 指定http请求的资源路径
+
+    # 如果honor_labels设置为&#34;true&#34;
+      则通过保留已抓取数据的标签值并忽略冲突的服务器端标签来解决标签冲突。
+    # 如果honor_labels设置为&#34;false&#34;
+      则通过将已抓取数据中的冲突标签重命名为&#34;exported_ &lt;original-label&gt;&#34;
+      例如&#34;exported_instance&#34;，&#34;exported_job&#34;
+      然后附加服务器端标签来解决标签冲突。 
+      这对于联合等用例很有用，其中应保留目标中指定的所有标签。
+    # 请注意，任何全局配置的&#34;external_labels&#34;都不受此设置的影响。 
+      在与外部系统通信时，它们始终仅在时间序列尚未具有给定标签时应用，否则将被忽略。
+    honor_labels:
+    honor_timestamps: 
+    scheme: # 配置是https或者http抓取
+    params: # 可选的HTTP URL参数
+      token:
+      act:
+      hostdev:
+    # 注意，“basic_auth”、“authorization”和“oauth2”选项是相互排斥
+    # password 和 password_file 选项是相互排斥
+    basic_auth:
+      username:
+      password:
+      password_file:
+    authorization:
+      type:
+      credentials:
+      credentials_file:
+    oauth2:
+
+    follow_redirects: # 配置抓取请求是否遵循 HTTP 3xx 重定向
+    enable_http2: # 是否启用HTTP2
+    tls_config: # 配置请求的TLS设置
+
+    proxy_url: # 可选的代理URL
+    azure_sd_configs: # azure服务发现配置列表
+    consul_sd_configs: # consul服务发现配置的列表
+    digitalocean_sd_configs: # digitalocean服务发现配置的列表
+    docker_sd_configs: # docker服务发现配置的列表
+    dockerswarm_sd_configs: # dockerswarm服务发现配置的列表
+    dns_sd_configs: # dns服务发现配置的列表
+    ec2_sd_configs: # ec2服务发现配置的列表
+    eureka_sd_configs: # eureka服务发现配置的列表        
+    file_sd_configs: # file服务发现配置的列表        
+    gce_sd_configs: 
+    hetzner_sd_configs:  
+    http_sd_configs:
+    ionos_sd_configs:
+    kubernetes_sd_configs: # k8s服务发现配置的列表         
+    kuma_sd_configs:
+    lightsail_sd_configs:
+    linode_sd_configs:
+    marathon_sd_configs:
+    nerve_sd_configs:
+    nomad_sd_configs:
+    openstack_sd_configs:
+    puppetdb_sd_configs:
+    scaleway_sd_configs:
+    serverset_sd_configs:
+    triton_sd_configs: 
+    uyuni_sd_configs: 
+    relabel_configs: # 对服务发现的目标进行重新标记
+    metric_relabel_configs: # 抓取目标后，被保存之前。可以确定哪些指标需要保存或丢弃
+    body_size_limit:
+    sample_limit: # 对每个将被接受的样本数量的每次抓取限制。
+    label_limit:
+    label_name_length_limit:
+    label_value_length_limit:
+    target_limit:
+
+# 与远程写入功能相关的设置
+remote_write:
+  - remote_write:
+
+# 与远程读取功能相关的设置
+remote_read:
+  - remote_read:
+
+# 存储相关设置
+storage:
+  exemplars:
+
+# tracing_config配置通过 OTLP 协议从 Prometheus 导出跟踪到跟踪后端
+# 跟踪目前是一项实验性功能，未来可能会发生变化
+tracing:
+  tracing_config
 </code></pre><h1 id="问题记录">问题记录</h1>
 <h4 id="kubesphere-内置规则告警-cputhrottlinghigh">Kubesphere 内置规则告警: CPUThrottlingHigh</h4>
 <pre tabindex="0"><code>kubectl edit PrometheusRule prometheus-k8s-rules -n kubesphere-monitoring-system

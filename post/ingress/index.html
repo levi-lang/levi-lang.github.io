@@ -207,6 +207,24 @@
 
 通过yaml安装
 略
+
+实际上安装openelb 会遇到一个bug
+就是探针失败
+但是你登录到容器内执行探针命令 
+也能收到执行结果并且是好的 
+所以会不停的告警 
+最后为了清净一些 把下面这部分的探针删掉
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - &#39;-c&#39;
+                - |
+                  gobgp -p 50051 global
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
 </code></pre><h1 id="配置多个-openelb-副本">配置多个 OpenELB 副本</h1>
 <pre tabindex="0"><code>登录Kubernetes集群，执行如下命令，为需要安装OpenELB的Kubernetes集群节点打上标签
 kubectl label --overwrite nodes master1 worker-p002 lb.kubesphere.io/v1alpha1=openelb
@@ -363,6 +381,80 @@ spec.dnsNames 指示该证书的可以用于哪些域名
 2、acme协议有http和dns两种 如果使用的话最好用DNS
 3、如果ingress 编写的时候配置了cert-manager 自动签发的annotations 
    那么不需要创建Certificate 资源对象
+</code></pre><h1 id="dns方式">DNS方式</h1>
+<pre tabindex="0"><code># ClusterIssuer 资源
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dns01
+  namespace: cert-manager
+spec:
+  acme:
+    privateKeySecretRef:
+      name: letsencrypt-dns01
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - dns01:
+        cloudflare:
+          email: levi@xxxx.com # 替换成你的 cloudflare 邮箱账号，API Token 方式认证非必需，API Keys 认证是必需
+          apiTokenSecretRef:
+            key: api-token
+            name: cloudflare-api-token-secret # 引用保存 cloudflare 认证信息的 Secret
+
+# Secret 资源
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-token-secret
+  namespace: cert-manager
+type: Opaque
+stringData:
+  api-token: xxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+# ingress(apisix)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kubesphere-route-ca
+  namespace: production
+spec:
+  dnsNames:
+  - www.xxx.com
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-dns01
+  secretName: www.xxx.com.ca
+---
+apiVersion: apisix.apache.org/v2beta3
+kind: ApisixRoute
+metadata:
+  name: kubesphere-route
+  namespace: kubesphere-system
+spec:
+  http:
+  - backends:
+    - serviceName: ks-console
+      servicePort: 80
+    match:
+      hosts:
+      - www.xxx.com
+      paths:
+      - /*
+    name: kubesphere
+    websocket: true
+---
+apiVersion: apisix.apache.org/v2beta3
+kind: ApisixTls
+metadata:
+  name: kubesphere-tls-route
+  namespace: production
+spec:
+  hosts:
+  - www.xxx.com
+  secret:
+    name: www.xxx.com.ca
+    namespace: production
 </code></pre><h1 id="测试二openelb外部访问">测试二openelb外部访问</h1>
 <pre tabindex="0"><code>1 购买域名
 2 通过域名面板 把域名指向相应openelb的服务器（在云上指向SLB负载均衡器，此处为单点）
