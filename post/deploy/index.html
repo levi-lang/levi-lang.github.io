@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Kustomize&#43;DevOps&#43;GitOps</title>
+        
+        <style>
+
+    html body {
+        font-family: 'Raleway', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: red;
+        --border-width:  5px ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="https://levi-lang.github.io/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"> 
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scala.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/swift.min.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.101.0" />
+        
+
+        
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        
+
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#">Kustomize&#43;DevOps&#43;GitOps</a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                        <ul class="nav navbar-nav">
+                            
+                                <li><a href="/">Home</a></li>
+                            
+                                <li><a href="/about/">About</a></li>
+                            
+                                <li><a href="/post/">Posts</a></li>
+                            
+                                <li><a href="/project/">Projects</a></li>
+                            
+                        </ul>
+                    
+                    
+                        <ul class="nav navbar-nav navbar-right">
+                            
+                                <li class="navbar-icon"><a href="mailto:me@example.com"><i class="fas fa-envelope"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://github.com/username/"><i class="fab fa-github"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://twitter.com/username/"><i class="fab fa-twitter"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://www.linkedin.com/in/username/"><i class="fab fa-linkedin"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://www.stackoverflow.com/username/"><i class="fab fa-stack-overflow"></i></a></li>
+                            
+                        </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2>Kustomize&#43;DevOps&#43;GitOps</h2>
+        <h5>August 1, 2022</h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="devops">DevOps</h1>
+<pre tabindex="0"><code>devops 是一种思维方式 同时也是一组工作实践
+成功的DevOps是将人+过程+工具相互融合
+devops一词是由开发和运维这两个词组合而成的 是一种文化转变
+
+一家转件公司
+产品PM
+开发Dev
+测试Test
+运维Ops
+
+软件开发的过程
+分析阶段
+设计阶段
+实现阶段
+测试阶段
+维护阶段
+</code></pre><h1 id="devsecops">DevSecOps</h1>
+<pre tabindex="0"><code>DevSecOps 将安全工具和流程嵌入到DevOps工作流程中
+并自动执行核心安全任务
+代码分析：识别安全漏洞
+变更分析：确定变更的影响
+合规性检查
+
+plan
+  培训
+  威胁建模
+  安全编码指南
+code
+  供应链安全
+  IDE插件源码扫描
+  第三方库
+commit&amp;build
+  容器镜像扫描
+  开源组件安全扫描
+  源代码扫描
+test
+  交互式安全测试
+  动态安全测试
+  接口安全测试
+deploy
+  容器安全监测
+  应用包安全监测
+  安全配置及基线监测
+operate
+  自动化渗透测试
+  攻防演练
+  事件监控与相应
+</code></pre><h1 id="chatops">ChatOps</h1>
+<pre tabindex="0"><code>以聊天的方式进行Ops
+CharOps - MatterMost / 钉钉
+</code></pre><h1 id="gitops">gitops</h1>
+<pre tabindex="0"><code># 参考网址：https://www.gitops.tech/
+
+自动化的基础架构管理
+借助GitOps 团队可以自动化基础架构的配置过程
+使用声明文件将基础架构编写为代码(IaC) 基础设施即代码
+存储在Git存储库中 就像存储应用程序开发代码一样
+
+编写Terraform配置文件创建VM K8S集群 
+编写yaml配置文件部署k8s应用
+</code></pre><h1 id="cicd">CI/CD</h1>
+<pre tabindex="0"><code>CI 持续集成
+CI 是合并开发人员在开发编写的所有代码的一种做法
+
+CD 持续部署
+CD 在CI的基础上自动化的将软件部署到各种环境中
+理想状态：每次变更自动部署到生产环境
+</code></pre><h1 id="工具">工具</h1>
+<pre tabindex="0"><code>jenkins
+gitlab
+CircleCI
+zadig
+spinnakerCD
+Terraform
+svn
+git
+maven
+ant
+gradle
+npm
+go
+sonarqube
+shell
+python
+saltstack
+ansible
+jmeter
+soar sql扫描
+jira
+confluence
+
+ArgoCD
+kustomize
+sops # https://github.com/mozilla/sops
+GnuPG
+</code></pre><h1 id="jenkins-简介">jenkins 简介</h1>
+<pre tabindex="0"><code>Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具
+用于监控持续重复的工作，旨在提供一个开放易用的软件平台，使软件项目可以进行持续集成
+
+# 部署
+  传统二进制部署
+  容器部署
+  k8s部署
+  terraform部署
+
+# 配置
+用户管理
+  LDAP
+  Gitlab SSO
+  GitHub SSO
+权限管理
+  Role-Based Authorization Strategy
+
+插件
+  Role-Based Authorization Strategy 权限管理插件
+  Pipeline 流水线插件
+  Generic Webhook Trigger 触发器插件
+  Pipeline Utility Steps JSON解析用的
+  Rebuilder 从新构建流水线插件
+  Email Extension 邮箱插件
+插件源
+节点管理
+  静态slave
+  动态slave
+
+项目类型和参数
+自由风格
+流水线
+
+参数化构建过程
+String Parameter 字符串参数 
+Choice Parameter 选项参数
+历史构建
+  丢弃旧的构建
+  保持构建天数
+  保持构建的最大个数
+并行构建
+构建触发器
+  其他工程构建后触发
+  定时构建
+  轮休SCM
+  关闭构建
+  静默期
+  触发远程构建（API）
+    无参数化远程构建
+    有参数化远程构建
+
+凭据管理
+ Username with password
+ Docker Host Certificate Authentication
+ GitLab API token
+ SSH Username with private key
+ Secret file
+ Secret text
+ Certificate
+
+Jenkins BlueOcean（UI）
+这个UI和kubesphere非常像
+
+JENKINS_HOME
+caches:		系统缓存数据
+jobs:		Jenkins项目作业
+nodes:		slave节点信息
+secrets:	秘钥信息
+unerContent:	类似web站点 可上传文件
+workspace:	默认的工作目录
+fingerprints:	指纹验证信息
+logs:		日志信息
+plugins:	插件相关配置
+updates:	插件更新目录
+users:		jenkins系统用户目录
+</code></pre><h1 id="pipeline">pipeline</h1>
+<pre tabindex="0"><code>Pipeline
+Jenkinsfile
+  以代码的方式描述流水线
+  Jenkins在运行pipeline任务的时候会安装Jenkinsfile中定义的代码顺序执行
+
+调试：回放  
+
+# 语法
+Jenkins流水线语法有两种
+1、脚本式
+2、声明式（可以嵌入脚本式）
+
+Pipeline	一级块
+agent		二级块	运行节点，节点可以使用名称或标签
+  any		允许在任何一个可用节点
+  none		当pipeline全局指定agen t为none 则根据每个stage中定义的agent运行
+  label		在指定的标签的节点运行
+  node		支持自定义流水线的工作目录 
+options		二级块  管道运行选项
+stages		二级块  流水线的阶段
+post		二级块  构建后的操作
+environment 	        环境变量 分局部变量 和全局变量 变量的作用域 局部变量高于全局
+options 	二级块  选项
+paramters 	二级块  参数化构建
+trigger		二级块  触发器
+# tool 全局工具
+input 		四级块 用户确认是否继续执行
+when 		三级块 条件判断
+parallel        四级块 并行
+step		       步骤
+
+pipeline开发工具
+片段生成器
+  Jenkins---项目---流水线语法
+  Declarative Directive Generator(就是声明式流水线语法的语句块)
+  Options---新增
+声明式流水线语法的语句块
+步骤参考
+全局变量参考
+  对于只展示步骤的片段生成器的补充，流水线还提供了一个内置的“全局变量参考”。
+  和片段生成器一样，它也是由插件动态添加。
+  但和片段生成器不一样的是，全局变量参考只包含由流水线或插件提供的可用于流水线的变量文档。
+
+流水线默认提供的变量是
+Jenkins系统内置变量
+是Jenkins系统在安装部署后预先定义好的变量。
+这些变量可以通过Jenkins流水线语法页面看到具体有哪些。
+这些变量都是全局的可以使用&#34;${env.变量名}引用。
+
+env
+可以从脚本式流水线中访问的环境变量
+例如： env.PATH 或 env.BUILD_ID
+访问内置的全局变量参考页面 ${YOUR_JENKINS_URL}/pipeline-syntax/globals 
+以获取完整的，最新的，可用于流水线的环境变量列表。
+
+params
+将为流水线定义的所有参数作为 Map，例如：params.MY_PARAM_NAME。
+
+currentBuild
+可用于发现当前正在执行的流水线的信息
+比如 currentBuild.result，currentBuild.displayName 等属性。
+参考内置的全局变量参考页面 ${YOUR_JENKINS_URL}/pipeline-syntax/globals 
+以获取完整的，最新的，currentBuild 的属性列表。
+
+样例
+pipeline {
+  agent any
+  agent { node { label &#34;build&#34;}} 
+  agent {
+    node {
+      label: &#34;labelName&#34;,
+      customWorkspace &#34;/opt/agent/workspace&#34;
+    }
+  }
+
+  // 参数化构建
+  parameters{
+    string defaultValue: &#39;1.1.2&#39;, description: ‘版本号’, name: &#39;VERSION&#39;, trim: true
+  }
+
+  // 选项
+  options{
+    // 如果某个stage为unstable状态，则忽略后面的任务，直接退出
+    skipStagesAfterUnstable()
+    // 保留最新的10个build log和1个artifact
+    buildDiscarder(logRotator(numToKeepStr: &#39;10&#39;, artifactNumToKeepStr: &#39;1&#39;))
+    // 禁止并行构建
+    disableConcurrentBuilds()
+    // 忽略默认的checkout
+    skipDefaultCheckout()
+    // 超时时间
+    timeout(time: 1, unit: &#39;HOURS&#39;)
+    // 重试次数
+    retry(3)
+    // 设置日志时间输出
+    timestamps()					
+  }
+
+  // 环境变量
+  environment{
+    NAME = &#34;LEVI&#34;
+    VERSION = &#34;1.1.20&#34;
+    ENVTYPE = &#34;DEV&#34;
+  }
+
+  triggers{
+    cron(&#39;H */7 * * 1-5&#39;)
+  }
+  
+ 
+  //流水线的所有阶段
+  stages {
+    //获取代码阶段
+    stage(&#39;CheckOut&#39;){
+      input{
+	message: &#34;是否继续发布&#34;
+        ok &#34;Yes&#34;
+        submitter &#34;levi,aa&#34;
+        parameters{
+          string(name: &#39;ENVTYPE&#39;,defaultValue: &#39;DEV&#39;,description: &#39;envtype..[DEV/STAG/PROD]&#39;)
+        }
+      }
+      //步骤
+      steps{
+        //声明式语法可以直接写在stage下
+        //脚本式语法只能写在script下
+        //嵌入脚本式语法 
+        script{
+          echo &#39;获取代码&#39;
+          sh &#39;echo &#34;hello&#34;&#39; 
+          echo &#34;${BUILD_ID}&#34;
+          echo &#34;${env.BUILD_ID}&#34;
+          echo &#34;$BUILD_ID&#34;
+          println(&#34;获取代码&#34;)
+        }
+      }
+    }
+    stage(&#34;deploy&#34;){
+      when{
+        environment name: &#34;branchName&#34;, value: &#34;test&#34;
+      }
+      steps{
+        echo &#34;deploy ${envName}&#34;
+      }
+    }
+  }
+
+  post{
+    always{
+      script{
+        println(&#34;流水线结束后，经常做的事情&#34;)
+      }
+    }
+    success{
+      script{
+        println(&#34;流水线成功后，要做的事情 触发CD作业&#34;)
+      }
+    }
+    failure{
+      script{
+        println(&#34;流水线失败后，要做的事情&#34;)
+      }
+    }
+    aborted{
+      script{
+        println(&#34;流水线取消后，要做的事情 发邮件&#34;)
+      }
+    }
+    unstable{
+      script{
+        println(&#34;不稳定状态，单测失败等执行脚本&#34;)
+      }
+    }
+  }
+}
+</code></pre><h1 id="共享库">共享库</h1>
+<pre tabindex="0"><code>共享库
+共享库这并不是一个全新的概念
+其实在编程语言python中
+我们可以将python代码写到一个文件中
+当代码数量增加 
+我们可以将代码打包成模块然后再以import的方式使用此模块中的方法
+
+在Jenkins中使用groovy语法
+共享库中存储的每个文件都是一个groovy的类
+每个文件类中包含一个或多个方法
+每个方法包含groovy语句块
+
+├── src
+│   └── org
+│       └── devops
+│           └── tools.groovy
+├── vars
+│   └── GetHosts.groovy
+│   └── GetCommitId.groovy
+│           
+└── resources
+│   └── org
+│       └── devops
+│           └── config.json
+
+src
+类似于java的源码目录
+执行流水线时会加载到class路径中
+
+vars
+存放全局变量脚本
+小的功能函数
+
+resources
+存放资源文件
+类似于配置信息文件
+
+创建仓库jenkinslib
+创建文件夹 jenkinslib/src/org/devops/tools.groovy
+创建文件夹 jenkinslib/var/hello.goroovy
+
+使用共享库
+# 其中的这个_ 是代表加载到当前文件中
+@Library(&#39;jenkinslib&#39;) _
+def tools = new org.devops.tools() 
+</code></pre><h1 id="groovy">Groovy</h1>
+<pre tabindex="0"><code>Groovy功能强大 可选类型和动态语言 支持java平台
+可以与任何java程序顺利集成 包括脚本编写 特定领域语言编写
+
+配置安装环境
+下载安装包（先按照JDK）
+配置环境变量等
+
+除了自行安装外
+还可以在Jenkins中使用
+1、可以在回放里面执行 
+2、系统管理---脚本命令行
+
+注释
+  单行注释//
+  多行注释/* */
+
+字符串
+  字符串表示方式：单引号 双引号 三单双引号
+
+定义一个字符串类型变量name
+String name = &#39;levi&#39;
+
+定义一个变量包含多行内容
+String levi = ”“”devops“”“
+println(levi)
+
+单引号纯文本
+双引号变量
+
+字符串分割
+</code></pre><h1 id="自动触发流水线">自动触发流水线</h1>
+<pre tabindex="0"><code>Jenkins需要安装一下
+安装插件：Pipeline Utility Steps
+安装插件：Generic Webhook Trigger
+https://jenkins_url/generic-webhook-trigger/invoke
+
+从gitlab或github中配置webhook
+（略）
+
+从Jenkins项目中
+配置---Generic Webhook Trigger---Post content parameters
+新增
+  Variable---webhookData
+  Expression---$
+Print post content 打上✅
+保存
+运行流水线后可以从日志看到gitlab push动作后对Jenkins请求过来的所有参数
+</code></pre><h1 id="argocd">ArgoCD</h1>
+<pre tabindex="0"><code>Argo CD 是以 Kubernetes 作为基础设施
+遵循声明式 GitOps 理念的持续交付（continuous delivery, CD）工具
+支持多种配置管理工具，包括 ksonnet/jsonnet、kustomize 和 Helm 等
+
+
+I/CD 工具都使用基于 Push 的部署模式，例如 Jenkins、CircleCI 等
+这种模式一般都会在 CI 流水线运行完成后执行一个命令
+（比如 kubectl）将应用部署到目标环境中
+
+这种 CD 模式的缺陷很明显：
+  需要安装配置额外工具（比如 kubectl）；
+  需要 Kubernetes 对其进行授权；
+  需要云平台授权；
+  无法感知部署状态。也就无法感知期望状态与实际状态的偏差，需要借助额外的方案来保障一致性
+
+Argo CD 会被部署在 Kubernetes 集群中，使用的是基于 Pull 的部署模式
+它会周期性地监控应用的实际状态，也会周期性地拉取 Git 仓库中的配置清单
+并将实际状态与期望状态进行比较，如果实际状态不符合期望状态，就会更新应用的实际状态以匹配期望状态
+
+无论是通过 CI 流水线触发更新 K8s 编排文件，还是 DevOps 工程师直接修改 K8s 编排文件
+Argo CD 都会自动拉取最新的配置并应用到 K8s 集群中
+
+最终会得到一个相互隔离的 CI 与 CD 流水线
+CI 流水线通常由研发人员（或者 DevOps 团队）控制
+CD 流水线通常由集群管理员（或者 DevOps 团队）控制
+
+Argo CD 是通过一个kubernetes控制器来实现的
+它持续watch 正在云的应用程序并将当前的实时状态与所需的目标状态（git存储库中指定的）进行比较
+
+从 GitOps 工作流的角度来看，总共分为 3 个阶段：检索、调谐和呈现
+主要组件
+Repository Server(检索) 仓库服务
+  检索阶段会克隆应用声明式配置清单所在的 Git 仓库，并将其缓存到本地存储
+  包含 Kubernetes 原生的配置清单、Helm Chart 以及 Kustomize 配置清单
+  履行这些职责的组件就是 Repository Server
+功能
+  存储URL
+  revision 版本（commit、tag、branch）
+  应用路径
+  模板配置：参数、ksonnet 环境、helm values.yaml 等
+
+Application Controller（协调） 应用控制器
+  调谐（Reconcile）阶段是最复杂的
+  这个阶段会将 Repository Server 获得的配置清单与反映集群当前状态的实时配置清单进行对比
+  一旦检测到应用处于 OutOfSync 状态，Application Controller 就会采取修正措施，使集群的实际状态与期望状态保持一致
+
+  应用控制器是一个kubernetes控制器
+  他持续watch正在运行的应用程序并将当前的实时状态与所期望的目标状态（repo中指定的）进行比较
+  当监测应用程序的OutOfSync 状态 并采取一些措施来同步状态
+  它负责调用任何用户定义的生命周期时间的钩子（PreSync、Sync、PostSync）
+功能
+  自动部署应用程序到指定的目标环境
+  支持多种配置管理目标工具
+  能够管理和部署到多个集群
+  SSO集成
+  用于授权的多租户和RBAC策略
+  回滚
+  应用资源的健康状态分析
+  自动配置监测和可视化
+  自动或手动将应用程序同步到所需状态
+  提供应用程序活动实时视同的web ui
+  用于自动化和CI集成的CLI
+  webhook集成（GitHub、BitBucket、GitLab）
+  用于自动化的AccessTokens
+  PreSync、Sync、PostSync 以支持复杂的应用程序部署（蓝绿、金丝雀）
+  应用程序时间和API调用的审计
+  Prometheus监控指标
+  用于覆盖Git中的ksonnet/helm参数   
+   
+
+API（呈现）API服务
+  最后一个阶段是呈现阶段，由 Argo CD 的 API Server 负责，它本质上是一个 gRPC/REST Server
+  提供了一个无状态的可视化界面，用于展示调谐阶段的结果
+  是一个gRPC/REST服务
+  它暴露了 Web UI 、CLI 和 CI/CD系统使用的接口
+功能
+  应用程序管理和状态报告
+  执行应用程序操作（例如同步 回滚 用户定义的操作）
+  存储仓库和集群凭证管理（存储为 k8s secrets 对象）
+  认证和授权给外部身份提供者
+  RBAC
+  Git webhook 时间的侦听器、转发器
+
+核心概念
+  Application：应用 一组由资源清单定义的kubernetes资源 这是一个CRD资源对象
+  Application source type 用来构建应用的工具
+  Target state 目标状态 指应用程序所需的期望状态 由Git存储库中的文件表示
+  Live state 实时状态
+  Sync state 同步状态
+  Sync 同步指将应用程序迁移到其目标状态的过程
+  Sync opertation status 同步操作状态指的是同步是否成功
+  Refresh 刷新是指将Git中的最新代码与实时状态进行比较
+  Health 应用程序的健康状态
+  Tool 工具指从文件目录创建清单的工具 如kustomize 或ksonnet 等
+  Configuration management tool 配置管理工具
+  Configuration management plugin 配置管理插件
+</code></pre><h1 id="kustomize">kustomize</h1>
+<pre tabindex="0"><code>介绍:
+Kustomize 是一个管理 Kubernetes 配置的开源管理工具
+提供一种操作配置数据的方法，而不会使原始配置无法被 Kubernetes 使用
+从 Kubernetes v1.14 开始，kubectl 就完全支持 Kustomize 和 kustomization 文件
+已经集成在了kubectl中不用在单独下载
+在 Kubernetes v1.14 版本的发布说明中，kustomize 成为了 kubectl 内置的子命令
+并说明了 kustomize 使用 Kubernetes 原生概念帮助用户创作并复用声明式配置。
+
+但是kustomize也有自己的缺点，它无法像helm那样灵活多变
+比如，在配置多个一个Ingress的域名的时候，这在helm中将会非常简单
+但是在kustomize中，几乎无法通过kustomize本身来解决
+但是官方提供了var，而后var被诟病，于是出现了valueAdd
+但很可惜，valueAdd并不是为了解决这个问题
+valueAdd是从vars演变而来，但是valueAdd并不是最好的方式
+
+这么多的方式，均在解决一个核心的问题，环境变量env和字符自定义
+删除vars是计划的一部分，很显然，目前并没有更好的方式来解决更多的问题
+为了应对这个情况，使用最原始的envsubst成了一个选项。
+
+如果你并不希望你的配置清单是原始的，而是一些环境变量，大量的模板语法，你可以尝试helm。
+但用helm来管理大量零散的清单配置，在我看来是条不归路。
+因为事情在演变的过程中会不断的超过预期，变得复杂。
+而一旦复杂只会增加额外的成本
+
+解决的问题:
+kustomize 通过 Base &amp; Overlays 方式(下文会说明)方式维护不同环境的应用配置
+kustomize 使用 patch 方式复用 Base 配置，并在Overlay描述与Base应用配置的差异部分来实现资源复用
+kustomize 管理的都是 Kubernetes 原生 YAML 文件，不需要学习额外的 DSL 语法
+
+简单的说
+kustomize 是 kubernetes原生的配置管理
+以无模板方式来定制应用的配置
+kustomize使用k8s原生概念帮助创建并复用资源配置YAML
+允许用户以一个应用描述文件YAML文件为基础（Base YAML）
+然后通过Overlay的方式生成最终部署应用所需的描述文件
+
+kustomize术语:
+
+application
+  应用程序是一组由某些共同用途相关的 k8s 资源
+  例如，在由数据库支持的 Web 服务器之前的负载均衡器
+
+apply
+  在 k8s 的上下文中，动词apply指的是一个 kubectl 命令
+  和一个用于改变集群的正在进行的API 端点
+
+kustomize
+  Kustomize 是一个命令行工具，支持针对 k8s 风格对象的声明性配置的无模板、结构化定制
+
+kustomization
+  术语 kustomization 指的是 kustomization.yaml 文件
+  或者指的是包含 kustomization.yaml 文件的目录以及它里面引用的所有相关文件路径
+  kustomization 文件是称为 Kustomization 的 Kubernetes 资源模型 ( KRM )对象的 YAML 规范。
+  自定义描述了如何生成或转换其他 KRM 对象
+  KRM(Kamakura Risk Manager; 资源管理)
+
+base
+  base 指的是一个 kustomization 
+  任何的 kustomization 包括 overlay (后面提到)
+  都可以作为另一个 kustomization 的 base (简单理解为基础目录)
+  base 中描述了共享的内容，如资源和常见的资源配置
+  base是一些其他自定义引用的自定义
+  任何自定义，包括overlay，都可以作为另一个自定义的基础
+
+overlay
+  overlay 是一个 kustomization
+  它修改(并因此依赖于)另外一个 kustomization
+  overlay 中的 kustomization指的是一些其它的 kustomization, 称为其 base
+  没有 base, overlay 无法使用，并且一个 overlay 可以用作 另一个 overlay 的 base(基础)
+  简而言之，overlay 声明了与 base 之间的差异
+  通过 overlay 来维护基于 base 的不同 variants(变体)
+  例如开发、QA 和生产环境的不同 variants
+
+resource
+在 kustomize 的上下文中，resource 是描述 k8s API 对象的 YAML 或 JSON 文件的相对路径
+即是指向一个声明了 kubernetes API 对象的 YAML 文件
+
+generators
+  生成器生成可以按原样使用的资源
+
+transformer
+  自定义文件中的每个字段都可以表示为转换器
+  因此任何自定义文件都可以转换为具有自定义文件的自定义文件
+
+variant
+variant 是在集群中将 overlay 应用于 base 的结果
+例如开发和生产环境都修改了一些共同 base 以创建不同的 variant
+这些 variant 使用相同的总体资源，并与简单的方式变化
+例如 deployment 的副本数、ConfigMap使用的数据源等
+简而言之，variant 是含有同一组 base 的不同 kustomization
+
+patch
+修改文件的一般说明。文件路径
+指向一个声明了 kubernetes API patch 的 YAML 文件
+
+字段:
+base
+  此列表中的每个条目都应该解析为包含kustomization.yaml文件的目录
+
+buildMetadata
+
+commonAnnotations
+  添加到所有资源的注解
+
+commonLabels
+  为所有资源的加上 label 和 label selector 注意：这个操作会比较危险
+
+components
+  创造中，未来会发布
+
+configMapGenerator
+  可以生成 config map，列表中的每一条都会生成一个 configmap
+
+crds
+  和 resources 类似，只是 crds 是我们自定义的资源
+
+generatorOptions
+  用于控制 configMapGenerator 和 secretGenerator 的行为
+
+helmCharts
+
+images
+  修改镜像的名称、tag 或 image digest ，而无需使用 patches
+
+labels
+
+namePrefix
+  为所有资源和引用的名称添加前缀
+
+namespace
+  为所有资源添加 namespace
+
+nameSuffix
+  为所有资源和引用的名称添加后缀
+
+openapi
+
+patches
+  在资源上添加或覆盖字段，Kustomization 使用 patches 字段来提供该功能。
+
+patchesJson6902
+   列表中的每个条目都应可以解析为 kubernetes 对象和将应用于该对象的 JSON patch
+
+patchStrategicMerge
+  使用 strategic merge patch 标准 Patch resources
+
+replacements
+
+replicas
+  修改资源副本数
+
+resources
+  表示 k8s 资源的位置，这个可以是一个文件，也可以指向一个文件夹
+  读取的时候会按照顺序读取，路径可以是相对路径也可以是绝对路径
+  如果是相对路径那么就是相对于 kustomization.yml的路径
+
+secretGenerator
+  用于生成 secret 资源
+
+vars
+  类似指定变量
+
+
+官方示例:
+demo(项目名称)
+├── base
+│   ├── configMap.yaml  # 配置文件 如果有配置中心此文件可以省略
+│   ├── deployment.yaml
+│   ├── kustomization.yaml
+│   └── service.yaml
+└── overlays
+    ├── production
+    │   ├── deployment.yaml
+    │   └── kustomization.yaml
+    └── staging
+        ├── kustomization.yaml
+        └── map.yaml
+
+
+一个kustomization文件kustomization.yaml中包含四类字段
+  resources # 源
+    示例字段：resources、crds
+  generators # 生成器
+    示例字段：configMapGenerator（旧版）、 secretGenerator（旧版）、generators（v2.1）
+  transformers # 转换器
+    示例字段：namePrefix、nameSuffix、images、 commonLabels 等
+  meta # 元数据
+    示例字段：vars、namespace、 apiVersion、kind 等
+
+这些列表中的每个列表中的顺序都是相关
+在所有情况下，{pathOrUrl}列表条目都可以指定
+  包含一个 YAML 文件的文件系统路径
+  包含 kustomization.yaml 文件的目录(本地或远程 git repo)
+
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:  # 源
+- {pathOrUrl}
+- ...
+
+generators:  # 生成器
+- {pathOrUrl}
+- ...
+
+transformers:  # 转换器
+- {pathOrUrl}
+- ...
+
+validators:  # 验证器
+- {pathOrUrl}
+- ...
+
+在下resources，读取KRM yaml文件或执行递归自定义的结果成为当前构建阶段的输入对象列表
+在generators、transformers和下，validators读取的结果是一个 KRM 对象列表
+这些对象配置 了 kustomize 预期执行的操作
+
+典型布局
+app1/
+  kustomization.yaml
+    | resources:
+    | - ../base
+    | patches:
+    | - patch1.yaml
+  patch1.yaml
+
+app2/
+  kustomization.yaml
+    | resources:
+    | - ../base
+    | patches:
+    | - patch2.yaml
+  patch2.yaml
+
+自定义化被递归地构建（又名 hydrad ）到 KRM 对象的平面列表中
+base/
+  kustomization.yaml
+    | resources:
+    | - deployment.yaml
+    | - configMap.yaml
+  deployment.yaml
+  configMap.yaml
+
+这些配置指定了一些可执行文件（例如插件）以及该可执行文件的配置
+例如，副本计数转换器的配置必须指定能够解析和修改Deploymentreplicas的可执行文件
+以及要在 Deployment字段中使用的实际数值（或增量） 
+
+构建阶段首先处理resources，然后处理generators，添加到正在考虑的资源列表
+然后处理 transformers以修改列表，最后运行validators以检查列表是否有任何错误
+
+validator只是一个不转换的转换器
+但可以（就像转换器一样）使构建失败并显示错误消息。
+编写验证器与编写转换器相同。
+唯一的区别在于 kustomize 是如何使用它的；kustomize 尝试禁止验证者进行更改
+
+
+
+base下的kustomization.yaml文件中包含的内容
+commonLabels:
+  app: hello
+
+resources:
+- deployment.yaml
+- service.yaml
+- configMap.yaml
+generatorOptions:
+  disableNameSuffixHash: true # 在生成的configmap 或secret 资源后不加入hash后缀
+
+可以通过 kustomize build 命令来看完整的配置
+$ kustomize build demo/base  # build 出来的 YAML 太长就不贴处理了
+$ kustomize build demo/base | kubectl apply -f -  # 这种方式直接部署在集群中
+$ kubectl apply -k # 1.14 版本可以直接使用该命令部署应用于集群中
+-f 参数后跟yaml或json格式的资源配置文件
+-k 参数后跟kustomization.yaml配置文件的位置
+
+taging kustomization 文件中，定义一个新的名称前辍以及一些不同的标签
+# 文件路径 demo/overlays/staging/kustomization.yaml
+namePrefix: staging-
+commonLabels:
+  variant: staging
+  org: acmeCorporation
+commonAnnotations:
+  note: Hello, I am staging!
+bases:
+- ../../base
+patchesStrategicMerge:
+- map.yaml
+
+添加一个 ConfigMap 自定义把 base 中的 ConfigMap 中的 &#34;Good Morning!&#34; 变成 &#34;Good Night!&#34;
+# 文件路径 demo/overlays/staging/map.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: the-map
+data:
+  altGreeting: &#34;Have a pineapple!&#34;
+  enableRisky: &#34;true&#34;
+
+需要在演示环境部署应用，通过下面命令
+$ kustomize build demo/overlays/staging | kubectl apply -f -     # 或者 kubectl apply -k
+
+
+扩展:
+nano 和vim 一样都是编辑器，用法不一样而已
+</code></pre><h1 id="案例">案例</h1>
+<pre tabindex="0"><code>apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources        # 带定制的原始资源配置文件列表 将由kustomize按顺序处理
+namespace        # 设定所有名称空间级别资源所属的目标名称空间
+commonLabels     # 添加到所有资源的通用标签 包括pod目标及相关的
+
+# 相关的标签选择器
+commonAnnotations # 添加到所有资源的通用注解
+namePrefix        # 统一给所有资源添加的名称前缀
+nameSuffix        # 统一给所有资源添加的名称后缀
+images            # 将所有pod模板中的符合name字段条件镜像文件修改为指定的镜像
+- name            # 资源清单中的原有的镜像名称 即待替换的镜像
+  nameName        # 要使用的新镜像名称
+  newTag          # 要使用的新镜像的标签
+  digest          # 要使用的新镜像的sha256校验码（摘要）
+vars              # 指定可用于替换pod容器参数中标量的值或容器环境变量的值
+- name            # 变量的名称 支持以$(name)格式进行引用
+  objref          # 包含了要引用的目标字段的对象名称
+  fieldref        # 引用的字段名称 默认为metadata.name
+
+# 配置生成器（生成器是生成配置的旧版本的）	
+configMapGenerator  # ConfigMap资源生成器列表
+- name              # ConfigMap资源的名称 会受到namePrefix和nameSuffix 的影响
+  namespace         # 资源所在的名称空间 会覆盖kustomize级别的名称空间设定
+  behavior          # 与上级同名资源的合并策略 可用取值为create/replace/merge
+  files             # 从指定的路径加载文件生成ConfigMap 要使用当前项目的相对路径
+  literals          # 从指定的key=value 格式的直觉生成configmap
+  env               # 从指定的环境变量文件中加载key=value 格式的环境变量为资源数据
+
+secretGenerator     # secret资源生成器列表（旧版本的）
+- name              # 
+  namespace         # 
+  behavior          # 与上级同名资源的合并策略 可用取值为create/replace/merge
+  files
+  literals
+  type              # secret资源的类型 且kubernetes.io/tls 有特殊的键名要求
+
+generatorOptions    # 当前kustomization.yaml中的configmap 和secret生成器专用的选项
+  labels                 # 当前kustomization.yaml中所有生成资源添加的标签
+  annotations            # 为生成所有资源添加的注解
+  disableNameSuffixHash  # 是否禁用hash名称后缀 默认为启用
+
+# 资源补丁(两种补法)
+Json6902 是打补丁的一个规范方法
+patchesJson6902     # 由各待补对象及其补丁文件所组成的列表
+  path              # 补丁文件 不含有目标资源对象的信息 支持json或yaml格式
+  target            # 待补资源对象
+    group           # 资源所属的群组
+    version         # API版本
+    kind            # 资源类型
+    name            # 资源对象的名称
+    namespace       # 资源对象所属的命名孔径
+
+patchesStrategicMerge  # 将补丁补到匹配的资源之上 匹配的方式是根据资源
+
+
+例子1
+kustomize-demo
+kustomization.yaml
+deploy.yaml
+service.yaml
+
+
+kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- deploy.yaml
+- service.yaml
+
+commonLabels:  # 添加标签  标签为generated-by 值为kustomize
+  generated-by : kustomize
+
+kubectl  apply -k kustomize-demon --dry-run=client -o yaml
+
+=== === === === === === === === ===
+
+例子2
+kustomize-demo
+base
+  kustomization.yaml
+  deploy.yaml
+  service.yaml
+overlays
+  dev
+    secrets/
+      tls.crt
+      tls.key
+    patches/
+      demoapp-add-configmap-and-secret.yaml
+      demoapp-add-probe-and-limits.yaml
+      demoapp-add-sedecar.yaml 
+      patch-service-demoapp-targetport-8080.yaml
+    kustomization.yaml
+    namespace.yaml
+  uat
+  staging
+  prod
+
+
+dev.kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:  # 装载base目录中的清单
+- ../base/
+
+resources:  # 同时增加namespace清单
+- namespace.yaml
+
+namespace: test  # 设定所有名称空间级别资源所属的目标名称空间
+
+commonLables:  # 增加lables
+  environment: test
+
+commonAnnotations:  # 增加注解
+  ilinux.io/app: &#34;demoapp&#34;
+
+images:  # 更改镜像版本
+- name: &#34;ikubernetes/demoapp&#34;
+  newTag: &#34;v1.1&#34;
+
+configMapGenerator:  # 用下面的数据生成configmap
+- name: demoapp-conf
+  literals:
+  - HOST=&#34;0.0.0.0&#34;
+  - PORT=&#34;8080&#34;
+
+secretGenerator:  # 在secrets目录下加载tls.crt和tls.key文件作为生成secret的内容
+- name: demoapp-ssl
+  files:
+  - secrets/tls.crt
+  - secrets/tls.key
+  type: &#34;kubernetes.io/tls&#34;  # 指定了secrets的类型
+
+generatorOptions:  # 指定了两种生成器的行为 是否生成hash后缀
+  disableNameSuffixHash: true
+
+
+patchesJson6902:
+- target:
+    version: v1
+    kind: Service
+    name: demoapp
+  path: patches/patch-service-demoapp-targetport-8080.yaml
+
+patchesStrategicMerge:
+- patches/demoapp-add-configmap-and-secret.ayml
+
+
+dev.patches.demoapp-add-configmap-and-secret.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demoapp
+spec:
+  template:
+    spec:
+      containers:
+      - name: demoapp
+        env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: demoapp-conf
+              key: demoapp.port
+              optional: false
+        - name: HOST
+          valueFrom:
+            configMapKeyRef:
+              name: demoapp-conf
+              key: demoapp.port
+              optional: true
+        volumeMounts:
+        - name: demoappcerts
+          mountPath: /etc/demoapp/certs/
+          readOnly: true
+      volumes:
+      - name: demoappcerts
+        secret:
+          secretName: demoapp-ssl
+
+
+dev.patches.demoapp-add-probe-and-limits.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demoapp
+spec:
+  template:
+    spec:
+      containers:
+      - name: demoapp
+        livenessProbe:
+          httpGet:
+            path: &#39;/livez&#39;
+            port: 80
+          initialDelaySeconds: 5
+        readinessProbe:
+          httpGet:
+            path: &#39;/readyz&#39;
+            port: 80
+          initialDelaySeconds: 15
+
+dev.patches.demoapp-add-sedecar.yaml
+  - name: proxy
+    image: envoyproxy/envoy-alpine:v1.14.1
+    command: [&#39;/bin/sh&#39;, &#39;-c&#39;]
+    args: [&#39;sleep 5 &amp;&amp; envoy -c /etc/envoy/envoy.yaml&#39;]
+    lifecycle:
+      postStart:
+        exec:
+          command: [&#39;/bin/sh&#39;,&#39;-c&#39;,&#39;wget -O /etc/envoy/envoy.yaml http://ilinux.io/envoy.yaml&#39;]
+
+dev.patches.patch-service-demoapp-targetport-8080.yaml
+- op: replace
+  path: /spec/ports/0/targetPort
+  value: 8080
+- op: add
+  path: /spec/ports/1
+  value:
+    name: https
+    protocol: TCP
+    port: 443
+    targetPort: 8443
+</code></pre><h1 id="流程图">流程图</h1>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1ad9cd60c79bebb69d4f7f9bf674b66c.png" alt="avatar"></p>
+<h1 id="k8sjenkins-ci-实战">k8s+Jenkins CI 实战</h1>
+<pre tabindex="0"><code>流水线概述
+checkout scm（SCM：版本控制）          从 GitHub 仓库检出源代码
+unit test                              单元测试
+sonarqube analysis（analysis：分析）   代码质量分析
+build and push snapshot                推送最新镜像
+deploy                                 部署
+  ansible
+  saltstack
+  kubectl
+  helm
+  argocd
+status watch                           状态监测与反馈
+
+
+一、制作镜像
+二、写一个部署文件yaml
+三、kubectl apply
+
+通常，无状态的应用多数情况下以deployment控制器下运行
+在deployment更新中，当配置清单发生变化后，应用这些新的配置
+我们假设一些都ok，也成功拉取镜像，并且以默认的25%进行滚动更新，直到更新完成
+
+kubectl apply -f test1.yaml
+
+
+然而这一切按照预期进行，没有任何问题
+kubectl只是将配置推送到k8s后，只要配置清单没有语法或者冲突问题，返回的是0，状态就是成功的
+而整个过程有很多不确定性
+比如，不存在的镜像，没有足够的资源调度，配置错误导致的一系列问题，而捕捉这种问题也是比较关键的事情之一
+这并不单纯的简单观测问题，pod并不是拉取镜像就被running起
+一旦runing就意味着接收到流量，而程序准备需要时间
+如果此时程序没有准备好，流量就接入，势必会出现错误。为了解决这个问题，就需要配置就绪检测或者Startup检测
+pod在被真正的处于ready起来之前，通常会做就绪检测，或者启动检测。
+在之前的几篇中，我记录了就绪检测和健康检测的重要性，而在整个就绪检测中，是有一个初始化时间的问题。
+如果此时，配置清单发送变化，调度器开始执行清单任务
+假设此时的初始化准备时间是100秒，有30个pod，每次至少保证有75%是正常运行的
+默认按照25%滚动更新Updating a Deployment。此时的准备时间(秒)至少是
+
+30 / 25% * (100)readiness probe time 
+
+如果pod越多，意味着等待所有pod就绪完成的总时间就越长
+如果放在cd管道中去运行，势必会让反馈时间越久。
+当一个重量级的集群中，每一条全局遍历都非常消耗资源，因此操作非常昂贵。
+整个集群有可能因此产生大的延迟，在集群外部调用API间隔去获取远比实时获取消耗资源要少。
+如果pod并不多，这个问题不值得去考量。使用rollout足以解决
+
+获取清单被推送到节点的方式
+1、事件监控：pod在更新的时候，如果有问题会触发事件
+2、watch状态
+
+以及其他第三方的编码来达到这个需求，比如由额外的程序来间隔时间差去检测状态，而不是一直watch
+通常，使用kubectl rollout或者helm的--wait，亦或者argocd的平面控制来观测
+
+在kubernetes的文档中，rollout的页面中提到的检查状态
+kubectl -n NAMESPACE rollout status deployment NAME  --watch --timeout=10m
+
+上面两种方式能够完成大部分场景，但是watch是非常占用资源
+如果希望通过一个脚本自己的逻辑去处理，可以使用clent-go的包手动for循环查看状态
+
+
+# CI
+1、需要一个Docker Hub账户 和 GitHub账户
+     github 和 github容器仓库是一个账号
+
+2、需要启用kubeSphere DevOps系统
+     点击定制资源定义，在搜索栏中输入 clusterconfiguration
+     点击 ks-installer 右侧的 ，选择编辑 YAML
+     devops:
+       enabled: true # 将“false”更改为“true”
+
+3、需要创建一个企业空间
+     登录 KubeSphere
+     点击左上角的平台管理，选择访问控制
+     在企业空间中 点击右侧的创建
+
+4、需要一个DevOps项目和一个用户（project-regular）
+   需要邀请该用户至DevOps项目中并赋予operator角色
+     {略 实际上很重要 因为身为运维人员离职后这个账号应该是共用的并且需要修改密码}
+
+5、需要设置CI专用节点用于流水线
+     点击左上角的平台管理，然后选择集群管理
+     转到节点下的集群节点，您可以在其中查看当前集群中的现有节点。
+     从列表中选择一个节点用来运行 CI 任务。点击节点名称以转到其详情页面。
+     点击更多操作，然后选择编辑标签
+     在弹出的对话框中，您可以看到一个标签的键是 node-role.kubernetes.io/worker
+     输入 ci 作为此标签的值，然后点击保存
+
+6、需要安装和配置SonarQube
+   (略 需要看kubesphere的文档)
+
+7、创建devops项目
+     平台管理---访问控制---企业空间---DevOps项目（创建）
+
+8、创建凭证
+     平台管理---访问控制---企业空间---DevOps项目---凭证（创建）
+       创建第一个凭证（github访问登录凭证）
+         // 名称：github
+         // 类型：用户名和密码
+         // 用户名：把用户名默认admin修改成 github登录账号
+         // 密码/令牌：github令牌（从某个版本后不允许密码登录）
+         注意天坑：用户名最好别用邮箱 不然你会发现用到的时候git push 不上去
+
+       创建第二个凭证（dockerhub 容器仓库凭证）
+         // 也可以从凭证中创建（同上）
+
+       创建第三个凭证（Kubernetes 访问凭证）
+         // 名称：kube
+         // 类型：kubeconfig
+         // 内容：自动填充的  不用修改
+
+       创建第四个凭证（SonarQube 访问凭证 如果你的workflow中有此步骤）
+
+9、从github 或gitlab中创建项目
+     项目的命名最好也要有规则
+    （如果有规则就需要修改Jenkinsfile中获取项目名称的规则 因为在使用groovy方法获取项目名称/ 和- 需要做截断）   
+
+10、从项目中创建dockerfile
+    （略 根据项目自行编写 下面给个例子）
+
+FROM node:16-alpine AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN yarn install
+
+FROM node:16-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN yarn build:dev
+
+FROM node:16-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV production
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+USER nextjs
+EXPOSE 3000
+ENV PORT 3000
+CMD [&#34;node&#34;, &#34;server.js&#34;]
+    
+
+11、从项目中创建Jenkinsfile
+
+pipeline {
+  agent {
+    node {
+      label &#39;base&#39;
+    }
+  }
+  
+  parameters {
+    string(name:&#39;TAG_NAME&#39;,defaultValue: &#39;&#39;,description:&#39;&#39;)
+  }
+
+  environment {
+      DOCKER_CREDENTIAL_ID = &#39;dockerhub&#39;
+      KUBECONFIG_CREDENTIAL_ID = &#39;kube&#39;
+      REGISTRY = &#39;ghcr.io&#39;
+      DOCKERHUB_NAMESPACE = &#39;bitrainforest&#39;
+      APP_NAME = &#39;pandarua-web&#39;
+      BRANCH_NAME = &#39;market&#39;
+  }
+  
+  stages {
+    stage(&#39;Clone Code&#39;) {
+      steps {
+        script {
+          container(&#39;base&#39;){
+            println(&#34;Clone Code&#34;)
+            checkout(scm)
+          }
+        }
+      }
+    }
+    
+    stage(&#39;Build &amp; Push&#39;) {
+      steps {
+        script{
+          container(&#39;base&#39;) {
+            println(&#34;Build &amp; Push&#34;)
+            sh &#39;docker build -f Dockerfile -t $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$BRANCH_NAME-$BUILD_NUMBER .&#39;
+            withCredentials([usernamePassword(passwordVariable : &#39;DOCKER_PASSWORD&#39; ,usernameVariable : &#39;DOCKER_USERNAME&#39; ,credentialsId : &#34;$DOCKER_CREDENTIAL_ID&#34; ,)]) {
+              sh &#39;echo &#34;$DOCKER_PASSWORD&#34; | docker login $REGISTRY -u &#34;$DOCKER_USERNAME&#34; --password-stdin&#39;
+              sh &#39;docker push  $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$BRANCH_NAME-$BUILD_NUMBER&#39;
+            }
+          }
+        }
+      }
+    }
+    
+    stage(&#39;Push Latest&#39;) {
+      when {
+        branch &#39;main&#39;
+      }
+      steps {
+        container(&#39;base&#39;) {
+          sh &#39;docker tag  $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$BRANCH_NAME-$BUILD_NUMBER $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:latest &#39;
+          sh &#39;docker push  $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:latest &#39;
+        }
+      }
+    }
+
+    stage(&#39;Push With Tag&#39;){
+      when{
+        expression{
+          return params.TAG_NAME =~ /v.*/
+        }
+      }
+      steps{
+        container(&#39;base&#39;){
+          sh &#39;docker tag  $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$BRANCH_NAME-$BUILD_NUMBER $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$TAG_NAME &#39;
+          sh &#39;docker push  $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$TAG_NAME &#39;
+        }
+      }
+    }
+    
+    stage(&#39;Deploy&#39;){
+      steps{
+        script{
+          container(&#39;base&#39;) {
+            println(&#34;Deploy&#34;)
+            withCredentials([usernamePassword(passwordVariable : &#39;GITHUB_PASSWORD&#39; ,usernameVariable : &#39;GITHUB_USERNAME&#39; ,credentialsId : &#34;$GITHUB_CREDENTIAL_ID&#34; ,)]) {
+              sh &#34;&#34;&#34; 
+                git config --global user.name &#34;cjl-github&#34;
+                git config --global user.email &#34;812906084@163.com&#34;
+                git clone --depth=1 https://github.com/bitrainforest/devops-cd.git /opt/devops-cd
+                cd /opt/devops-cd
+                git pull
+                cd /opt/devops-cd/$APP_NAME
+                curl -s &#34;https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh&#34;  | bash
+                /opt/devops-cd/$APP_NAME/kustomize edit set image $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$BRANCH_NAME-$BUILD_NUMBER
+                git commit -am &#39;image update&#39;
+                git remote set-url origin https://$GITHUB_USERNAME:$GITHUB_PASSWORD@github.com/bitrainforest/devops-cd.git
+                git push origin main
+              &#34;&#34;&#34;
+            }
+          }
+        }
+      }
+    }   
+
+  }
+}
+
+  
+
+12、从项目中创建Jenkins共享库（实际上因为kubesphere暂时没有用到）
+创建仓库jenkinslib
+创建文件夹与文件 jenkinslib/src/org/devops/checkout.groovy
+创建文件夹 jenkinslib/var/
+
+checkout.groovy
+package org.devops
+
+//下载代码
+def GetCode(branchName, srcUrl){
+  checkout([$class: &#39;GitSCM&#39;, 
+            branches: [[name: branchName]], 
+            extensions: [], 
+            userRemoteConfigs: [[credentialsId: &#39;gtihub&#39;, url: srcUrl]]]) 
+}
+
+
+build.groovy
+
+13、创建完共享库后 需要从Jenkins中设置
+      登录Jenkins---系统管理---系统设置
+      Global Pipeline Libraries（中添加配置如果你用了共享库的情况下）
+
+14、创建项目yaml配置仓库同时使用kustomize进行管控
+
+15、创建流水线
+      平台管理---访问控制---企业空间---DevOps项目---流水线（创建）
+      注意：如果是自定义流水线是没有webhook钩子的 只有指定了项目才能用webhook
+
+16、使用 Webhook 触发流水线
+      获取 webhook URL
+      登录 Kubesphere Web 控制台
+      转到 DevOps 项目，点击流水线 例如，jenkins-in-scm以查看详情页面
+      点击更多，在下拉菜单中选择编辑设置
+      在出现的会话框中，滑动至 Webhook 以获得 webhook push URL
+      如果你的webhook 是内网地址 需要配置 公网访问域名 不然无法和github或gitlab 进行通信
+
+      在 GitHub 仓库中设置 webhook
+      登录您的 GitHub，并转到 devops-maven-sample 仓库
+      点击 Settings，然后点击 Webhooks，然后点击 Add webhook
+      在 Payload URL 中输入流水线中的 webhook push URL
+      然后点击 Add webhook。
+      出于演示需要，本教程选择 Just the push event。您可以根据需要进行配置
+      配置好的 webhook 会展示在 Webhooks 页面
+
+17、补充 钩子通信原理
+    用户推送代码到github货gitlab 触发钩子 把数据以json的形式发送到Jenkins 然后调用Jenkinsfile
+    另外可以在Jenkinsfile中配置不必每次推送代码都构建 只有打tag 版本的需要触发构建（Jenkinsfile中做判断）
+
+18、代码仓库
+      平台管理---访问控制---企业空间---DevOps项目
+      代码仓库（直接创建）
+      创建代码库的目的是因argocd 会访问代码库（基于git管理）
+  
+19、部署argocd
+      平台管理---访问控制---企业空间---DevOps项目---持续部署
+</code></pre><h1 id="gitlab-简介">gitlab 简介</h1>
+<pre tabindex="0"><code></code></pre><h1 id="gitlab-语法">gitlab 语法</h1>
+<pre tabindex="0"><code></code></pre><h1 id="蓝绿发布">蓝绿发布</h1>
+<pre tabindex="0"><code>蓝绿部署中，一共有两套系统：
+一套是正在提供服务系统(旧版)，标记为“绿色”；
+另一套是准备发布的系统，标记为“蓝色”。
+两套系统都是功能完善的，并且正在运行的系统，只是系统版本和对外服务情况不同。
+正在对外提供服务的老系统是绿色系统，新部署的系统是蓝色系统。
+
+# 语法
+
+可以在回放里面执行 
+系统管理 
+</code></pre><h1 id="gitlab-简介-1">gitlab 简介</h1>
+<pre tabindex="0"><code></code></pre><h1 id="gitlab-语法-1">gitlab 语法</h1>
+<pre tabindex="0"><code></code></pre><h1 id="蓝绿发布-1">蓝绿发布</h1>
+<pre tabindex="0"><code>蓝绿部署中，一共有两套系统：
+一套是正在提供服务系统(旧版)，标记为“绿色”；
+另一套是准备发布的系统，标记为“蓝色”。
+两套系统都是功能完善的，并且正在运行的系统，只是系统版本和对外服务情况不同。
+正在对外提供服务的老系统是绿色系统，新部署的系统是蓝色系统。
+
+蓝色系统不对外提供服务，用来做啥？
+用来做发布前测试，测试过程中发现任何问题，可以直接在蓝色系统上修改，不干扰用户正在使用的系统
+蓝色系统经过反复的测试、修改、验证，确定达到上线标准之后
+直接将用户切换到蓝色系统, 切换后的一段时间内，依旧是蓝绿两套系统并存
+但是用户访问的已经是蓝色系统
+这段时间内观察蓝色系统（新系统）工作状态，如果出现问题，直接切换回绿色系统
+当确信对外提供服务的蓝色系统工作正常，不对外提供服务的绿色系统已经不再需要的时候
+蓝色系统正式成为对外提供服务系统，成为新的绿色系统。
+原先的绿色系统可以销毁，将资源释放出来，用于部署下一个蓝色系统
+
+在使用蓝绿部署的过程中，会遇到下面几个问题：
+一、用来路由请求的调度器必须是零延迟
+    一旦完成流量切换，环境就会发生转换，用户的流量就会被路由到新环境。
+    调度器的实现有很多种方式：路由器、软件代理等，可能很难实现零延迟切换。
+二、当切换流量时，如果用户和应用已经发生了交互会怎么样？
+    现代架构的终极目标是实现应用的弹性伸缩和无状态化。
+    但实际情况下有些应用无法完全实现无状态化：
+    比如购物车的无状态化就很难实现，唯一的办法是在购物车状态发生变化时将其从 A 环境迁移到 B 环境。
+    但环境的迁移不是瞬间完成的，用户可能会发现自己处于中间状态，既不是完全处于 A 环境中，也不是完全处于 B 环境中
+三、如果应用后端有数据库该如何处理？
+    和上面讨论的类似，如果有一个 A 环境的数据库和一个 B 环境的数据库，就需要把数据从 A 环境迁移到 B 环境
+    推荐的做法是在流量切换之前完成数据的迁移
+    但在生产环境中数据可能会在流量完全切换之前发生变化，因此流量切换完成之后还要再进行一次数据迁移
+    但数据的迁移也不是瞬间完成的，需要一定的时间，这段时间内用户可能无法使用该服务
+    折中的解决方案是将数据库转移到 AB 环境之外的环境，然后将数据共享给 A 和 B 这两个环境
+    虽然这种架构对隔离性会产生一定的影响，但本文我不会展开详述
+</code></pre><h1 id="滚动更新">滚动更新</h1>
+<pre tabindex="0"><code>apiVersion: apps/v1
+kind: Deployment
+spec:
+ replicas: 3
+ strategy:
+   rollingUpdate:
+     maxSurge: 0         # ②
+     maxUnavailable: 1   # ③
+   type: RollingUpdate   # ①
+
+① : type 表示新的 Pod 替换旧的 Pod 的策略，可以是 Recreate 或者 RollingUpdate。
+如果选择了 Recreate，就会在创建出新的 Pod 之前会先杀掉所有已存在的 Pod。
+这种策略不能实现零宕机升级，所以只能用在开发环境中。
+如果选择了 RollingUpdate，Deployment 就会使用滚动的方式更新 Pod
+你可以指定 maxUnavailable 和 maxSurge 来控制 rolling update 进程。
+② : maxSurge 用来指定可以超过期望的 Pod 数量的最大个数。
+该值可以是一个绝对值（例如 5）或者是期望的 Pod 数量的百分比（例如 10%）。
+③ : maxUnavailable 用来指定在升级过程中不可用 Pod 的最大数量。
+该值可以是一个绝对值（例如 5），也可以是期望 Pod 数量的百分比（例如 10%）。
+光看理论可能不太好理解，下面我们通过一些示例来理解它的工作原理。
+
+# java 零宕机部署参考
+https://www.exoscale.com/syslog/kubernetes-zero-downtime-with-spring-boot/
+</code></pre><h1 id="金丝雀发布灰度发布">金丝雀发布（灰度发布）</h1>
+<pre tabindex="0"><code></code></pre><h1 id="ab测试">A/B测试</h1>
+<pre tabindex="0"><code></code></pre><h1 id="node-基础镜像">node 基础镜像</h1>
+<pre tabindex="0"><code>FROM node:lts-alpine
+LABEL Levi &lt;812906084@163.com&gt;
+RUN sed -i &#39;s/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g&#39; /etc/apk/repositories
+RUN apk add --update --no-cache tzdata \
+&amp;&amp; ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+&amp;&amp; echo &#34;Asia/Shanghai&#34; &gt; /etc/timezone \
+&amp;&amp; rm -rf /var/cache/apk/* /tmp/* /var/tmp/* $HOME/.cache
+</code></pre><h2 id="node-业务镜像">node 业务镜像</h2>
+<pre tabindex="0"><code>FROM registry-vpc.cn-beijing.aliyuncs.com/xxxx/xxxx:node
+LABEL Levi &lt;812906084@163.com&gt;
+WORKDIR /app
+ADD . /app
+RUN npm install --registry=https://registry.npm.taobao.org
+EXPOSE 5988
+CMD [&#34;npm&#34;,&#34;run&#34;,&#34;dev&#34;]
+
+---
+FROM registry-vpc.cn-beijing.aliyuncs.com/xxxx/xxxx:node
+LABEL Levi &lt;812906084@163.com&gt;
+WORKDIR /app
+COPY package*.json ./
+RUN [&#34;npm&#34;, &#34;install&#34;, &#34;--registry=http://r.tnpm.oa.com&#34;, &#34;--production&#34;]
+RUN npm install --registry=https://registry.npm.taobao.org
+RUN npm config set registry http://172.18.0.1:9000/repository/node-public &amp;&amp; npm install
+COPY . .
+RUN npm run build 
+
+# 此步骤多种构建的情况下其实nginx 也需要优化
+FROM nginx:stable-alpine as production-stage
+RUN apk add --no-cache tzdata \
+&amp;&amp; ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+&amp;&amp; echo &#34;Asia/Shanghai&#34; &gt; /etc/timezone \
+&amp;&amp; rm -rf /var/cache/apk/* /tmp/* /var/tmp/* $HOME/.cache
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+EXPOSE 443
+CMD [&#34;nginx&#34;,&#34;-g&#34;,&#34;daemon off;&#34;]
+</code></pre><h1 id="问题">问题</h1>
+<pre tabindex="0"><code>1、org.acegisecurity.userdetails.UsernameNotFoundException: User levi not found in directory
+解决方案：
+使用admin登录kubesphere 删除改用户再创建
+使用创建后的用户登录kubesphere再次运行就好了
+因为在Jenkins系统管理Manage and Assign Roles---Assign Roles 里此账号已经失效了
+
+2、check out from version control
+在git checkout 过程中报错
+是因为Jenkins生成的流水线默认主分支是master
+而github中创建完项目默认主分支是main
+修改一下就好了 
+</code></pre><h1 id="临时记录">临时记录</h1>
+<pre tabindex="0"><code>PolarDB
+onecmdb
+</code></pre></div>
+
+    
+    
+    
+
+    
+    
+        <h4 class="page-header">Comments</h4>
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "username" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

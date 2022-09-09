@@ -5,7 +5,7 @@
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Posts</title>
+        <title>Kubesphere 中安装Nacos&#43;Harbor</title>
         
         <style>
 
@@ -68,9 +68,6 @@
 <script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
  <meta name="generator" content="Hugo 0.101.0" />
         
-            <link href="/post/index.xml" rel="alternate" type="application/rss&#43;xml" title="Minimal" />
-            <link href="/post/index.xml" rel="feed" type="application/rss&#43;xml" title="Minimal" />
-        
 
         
 
@@ -88,7 +85,7 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand visible-xs" href="#">Posts</a>
+                    <a class="navbar-brand visible-xs" href="#">Kubesphere 中安装Nacos&#43;Harbor</a>
                     <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -131,102 +128,103 @@
 
 <main>
 
-    <h2>Posts</h2>
+    <div>
+        <h2>Kubesphere 中安装Nacos&#43;Harbor</h2>
+        <h5>July 17, 2022</h5>
+        
 
-     <div class="item">
+    </div>
+
+    <div align="start" class="content"><h1 id="kubesphere中安装nacos">kubesphere中安装Nacos</h1>
+<pre tabindex="0"><code># 添加helm源
+1 平台管理---访问控制---企业空间---应用管理---应用仓库（添加）
+
+2 平台管理---访问控制---企业空间（创建nacos命名空间）
+
+3 nacos命名空间---应用负载---应用---（创建）
+  从应用模板---选择应用仓库---（添加的nacos的helm仓库）---安装
+  名称---下一步
+  storageClass 需要填写
+  persistence.enabled true 开启nacos持久化
+  secondary.persistence.enabled true 开启mysql持久化
+  最后点击安装
+
+4 安装好后
+</code></pre><h1 id="kubersphere中安装harbor">kubersphere中安装Harbor</h1>
+<pre tabindex="0"><code># 添加helm源
+1 平台管理---访问控制---企业空间---应用管理---应用仓库（添加）
+https://helm.goharbor.io
+
+2 平台管理---访问控制---企业空间（创建harbor命名空间）
+
+3 harbor命名空间---应用负载---应用---（创建）
+  从应用模板---选择应用仓库---（添加的harbor的helm仓库）---安装
+  名称---下一步
+  在应用设置页面，编辑 Harbor 的配置文件，请注意以下字段
+  expose.type: nodePort
+  tls：指定是否启用 HTTPS。多数情况下设置为 false
+  expose.tls.enabled: false
+  externalURL：暴露给租户的 URL
+  externalURL: &#39;http://xxx.xxx.xxx.xx:30002&#39;
+
+4、访问
+     默认账号：admin 
+     默认密码：
+     http://xx.xxx.xxx.xx:30002
+
+如果是带有证书的
+helm 中的配置如下
+但是要求公网请求  但是镜像传输走内网
+那么就需要  在域名面板上指定内网地址
+这样公网请求后 在内网解析 当只有连接公司VPN 的情况下才可以访问web面板
+这种同样可以通过cert-manager 进行免费证书的申请
+
+
+expose:
+  type: clusterIP # 需要修改
+  tls:
+    enabled: true # 默认
+    certSource: secret # 需要修改
+    auto:
+      commonName: cr.pandarua.dev # 需要修改
+    secret:
+      secretName: harbor-tls # 证书
+      notarySecretName: harbor-tls # 证书
+
+# 需要修改
+externalURL: &#39;https://cr.pandarua.dev&#39;
+</code></pre></div>
 
     
     
     
 
     
-      
-
-    <h4><a href="/post/deploy/">Kustomize&#43;DevOps&#43;GitOps</a></h4>
-    <h5>gitlab &#43; jenkins</h5>
     
-
-
-</div>
-  <div class="item">
-
+        <h4 class="page-header">Comments</h4>
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
     
     
     
-
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "username" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     
-      
-
-    <h4><a href="/post/list/">关于运维那点事儿</a></h4>
-    <h5>简单记录下平时运维维护k8s需要掌握的东西</h5>
-    
-
-
-</div>
-  <div class="item">
-
-    
-    
-    
-
-    
-      
-
-    <h4><a href="/post/prometheus/">kubesphere 监控: prometheus</a></h4>
-    <h5>本指南将引导您认知kubesphere中的prometheus</h5>
-    
-
-
-</div>
-  <div class="item">
-
-    
-    
-    
-
-    
-      
-
-    <h4><a href="/post/ingress/">kubernetes 部署ingress: nginx</a></h4>
-    <h5>本指南将引导您安装ingress</h5>
-    
-
-
-</div>
-  <div class="item">
-
-    
-    
-    
-
-    
-      
-
-    <h4><a href="/post/blog/">blog 搭建: hugo</a></h4>
-    <h5>本指南将引导您安装个人blog</h5>
-    
-
-
-</div>
- 
 
 </main>
-
-
-
-<div class="pages">
-
-    
-
-    
-        <a class="icon pages-icon" href="/post/page/2/" rel="next">
-            <i class="fa fa-arrow-right"></i>
-        </a>
-    
-
-</div>
-
-
 
         <footer>
             <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>

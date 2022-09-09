@@ -6,7 +6,25 @@
     <description>Recent content in Posts on Minimal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 18 Jul 2022 04:39:11 +0100</lastBuildDate><atom:link href="https://levi-lang.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Aug 2022 15:43:11 +1000</lastBuildDate><atom:link href="https://levi-lang.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kustomize&#43;DevOps&#43;GitOps</title>
+      <link>https://levi-lang.github.io/post/deploy/</link>
+      <pubDate>Mon, 01 Aug 2022 15:43:11 +1000</pubDate>
+      
+      <guid>https://levi-lang.github.io/post/deploy/</guid>
+      <description>DevOps devops 是一种思维方式 同时也是一组工作实践 成功的DevOps是将人+过程+工具相互融合 devops一词是由开发和运维这两个词组合而成的 是一种文化转变 一家转件公司 产品PM 开发Dev 测试Test 运维Ops 软件开发的过程 分析阶段 设计阶段 实现阶段 测试阶段 维护阶段 DevSecOps DevSecOps 将安全工具和流程嵌入到DevOps工作流程中 并自动执行核心安全任务 代码分析：识别安全漏洞 变更分析：确定变更的影响 合规性检查 plan 培训 威胁建模 安全编码指南 code 供应链安全 IDE插件源码扫描 第三方库 commit&amp;amp;build 容器镜像扫描 开源组件安全扫描 源代码扫描 test 交互式安全测试 动态安全测试 接口安全测试 deploy 容器安全监测 应用包安全监测 安全配置及基线监测 operate 自动化渗透测试 攻防演练 事件监控与相应 ChatOps 以聊天的方式进行Ops CharOps - MatterMost / 钉钉 gitops # 参考网址：https://www.gitops.tech/ 自动化的基础架构管理 借助GitOps 团队可以自动化基础架构的配置过程 使用声明文件将基础架构编写为代码(IaC) 基础设施即代码 存储在Git存储库中 就像存储应用程序开发代码一样 编写Terraform配置文件创建VM K8S集群 编写yaml配置文件部署k8s应用 CI/CD CI 持续集成 CI 是合并开发人员在开发编写的所有代码的一种做法 CD 持续部署 CD 在CI的基础上自动化的将软件部署到各种环境中 理想状态：每次变更自动部署到生产环境 工具 jenkins gitlab CircleCI zadig spinnakerCD Terraform svn git maven ant gradle npm go sonarqube shell python saltstack ansible jmeter soar sql扫描 jira confluence ArgoCD kustomize sops # https://github.</description>
+    </item>
+    
+    <item>
+      <title>关于运维那点事儿</title>
+      <link>https://levi-lang.github.io/post/list/</link>
+      <pubDate>Mon, 01 Aug 2022 10:32:11 +1000</pubDate>
+      
+      <guid>https://levi-lang.github.io/post/list/</guid>
+      <description>运维基础 Linux 常用命令 中间件 数据库 高可用 分布式 python kubernetes 容器技术 docker containerd CGroups Namespaces 网络 flannel calico ciliun 存储 pv pvc local_pv storageclass sig-storage-local-static-provisioner nfs longhorn openebs rook-ceph clusterfs 密码加密与管理 vault 补充：关于密码 设计到密码学 常规的加密 分两种 1、数据加密涉及到对称与非对称加密 2、网络传输加密tor涉及到洋葱路由vpn范畴 sealed secrets helm secrets kamus 账号管理 Permission manager # 原理 # https://blog.csdn.net/gulang0309/article/details/123292936 安全 配置security context 禁用allowPrivilegeEscalation 不要使用root用户 限制cpu和内存资源 不必挂载Service Account Token 确保seccomp设置正确 限制容器的capabilities 只读方式加载容器根文件系统 readOnlyRootFilesystem: true 压测 k6 # https://k6.io/docs/getting-started/installation/ # https://zhuanlan.zhihu.com/p/481527374 postman swagger mock jmeter 自动化测试 # https://blog.</description>
+    </item>
+    
     <item>
       <title>kubesphere 监控: prometheus</title>
       <link>https://levi-lang.github.io/post/prometheus/</link>
@@ -32,6 +50,51 @@
       
       <guid>https://levi-lang.github.io/post/blog/</guid>
       <description>参考地址 hugo主题: https://themes.gohugo.io/ minimal: https://themes.gohugo.io/themes/minimal/ 安装hugo Mac 安装Hugo brew install hugo 创建blog hugo new site blog cd blog 下载主题 git submodule add https://github.com/calintat/minimal.git themes/minimal git submodule init git submodule update git submodule update --remote themes/minimal cp themes/minimal/exampleSite/config.toml . 编辑文章 mkdir -p blog/content/post cd blog/content/post vim blog.md 启动测试 cd blog hugo server 生成blog cd blog hugo --theme=Minimal --baseUrl=&amp;#34;https://levi-lang.github.io&amp;#34; --buildDrafts 执行完上面的命令 会在blog 目录下的public文件夹中生成网页 上传github cd blog/public git init git add . git commit -m &amp;#34;test&amp;#34; git remote add origin https://github.</description>
+    </item>
+    
+    <item>
+      <title>Kubesphere 中安装Nacos&#43;Harbor</title>
+      <link>https://levi-lang.github.io/post/nacos/</link>
+      <pubDate>Sun, 17 Jul 2022 08:14:11 +1000</pubDate>
+      
+      <guid>https://levi-lang.github.io/post/nacos/</guid>
+      <description>kubesphere中安装Nacos # 添加helm源 1 平台管理---访问控制---企业空间---应用管理---应用仓库（添加） 2 平台管理---访问控制---企业空间（创建nacos命名空间） 3 nacos命名空间---应用负载---应用---（创建） 从应用模板---选择应用仓库---（添加的nacos的helm仓库）---安装 名称---下一步 storageClass 需要填写 persistence.enabled true 开启nacos持久化 secondary.persistence.enabled true 开启mysql持久化 最后点击安装 4 安装好后 kubersphere中安装Harbor # 添加helm源 1 平台管理---访问控制---企业空间---应用管理---应用仓库（添加） https://helm.goharbor.io 2 平台管理---访问控制---企业空间（创建harbor命名空间） 3 harbor命名空间---应用负载---应用---（创建） 从应用模板---选择应用仓库---（添加的harbor的helm仓库）---安装 名称---下一步 在应用设置页面，编辑 Harbor 的配置文件，请注意以下字段 expose.type: nodePort tls：指定是否启用 HTTPS。多数情况下设置为 false expose.tls.enabled: false externalURL：暴露给租户的 URL externalURL: &amp;#39;http://xxx.xxx.xxx.xx:30002&amp;#39; 4、访问 默认账号：admin 默认密码： http://xx.xxx.xxx.xx:30002 如果是带有证书的 helm 中的配置如下 但是要求公网请求 但是镜像传输走内网 那么就需要 在域名面板上指定内网地址 这样公网请求后 在内网解析 当只有连接公司VPN 的情况下才可以访问web面板 这种同样可以通过cert-manager 进行免费证书的申请 expose: type: clusterIP # 需要修改 tls: enabled: true # 默认 certSource: secret # 需要修改 auto: commonName: cr.</description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://levi-lang.github.io/post/python/</link>
+      <pubDate>Sun, 17 Jul 2022 08:14:11 +1000</pubDate>
+      
+      <guid>https://levi-lang.github.io/post/python/</guid>
+      <description>了解 类图 流程图 安装配置 安装python 安装Anaconda 安装IDE 配置IDE 配置git 配置服务器或虚拟机 配置PEP8编码规范 配置等其他配置 基础 注释 标注 标识符 关键字 缩进 符号 单引号 双引号 运算符 数据类型 字符串 列表 元组 字典 集合 下标 切片 数据类型转换 变量 常量 输入 输出 输出结束符 输出格式化 f %f 转义字符 流程控制 if else while for break continue 表达式 三目运算 推导式=生成式 lambda表达式 函数 return 匿名函数 递归函数 高阶函数 函数说明文档 内置函数 文件操作 property属性 把一个方法当做属性一样使用 装饰器方式 类属性方式 with 语句 上下文管理器 一个类只要实现了__enter__() 和 __exit__() 方法 通过该类创建的对象就称之为上下文管理器 生成器 生成器推导式 yield关键字 深拷贝 浅拷贝 正则表达式 面向对象 类（大驼峰） 方法 一般来说，调用类中的方法（属性），需要对类进行实例化 普通方法带有参数 self，则只能被实例化对象调用 普通方法不带参数 self，则只能被类调用 被 @staticmethod 修饰的方法为静态方法 无需self参数，即可以被实例化对象调用，同时也可以被类调用 被 @classmethod 修饰的方法为类方法，也无需self参数，在静态方法基础上增加cls参数 属性 形参 实参 魔法方法 封装 继承 单继承 多继承 多层继承 print(类名.</description>
+    </item>
+    
+    <item>
+      <title>python—ijson</title>
+      <link>https://levi-lang.github.io/post/python_json/</link>
+      <pubDate>Sun, 17 Jul 2022 08:14:11 +1000</pubDate>
+      
+      <guid>https://levi-lang.github.io/post/python_json/</guid>
+      <description>场景 解析超大json文件 json.load直接加载json文件 内存装不下 网上大部份资料都是基于分块的思路解决超大数据文件的解析的 比如read函数可以一块一块加载，像这样read(1024)每次读取1024字节，总能将数据读取完的。 或者是readline函数，每次读取一行，这个函数的读取方式特别适合txt、csv文件。 然而这样的函数对于json格式的数据就完全不适用了，因为json格式的文件是有严格的结构的。 你不可能一块一块的或者一行一行的读取 噢不对，你可以这样读取，但是你这样读取出来的数据是完全没有意义的， 因为无法解析，你无法获得你想要的数据。 块读取的方式不行，那该怎么办呢，流式读取 知识点 json大文件读取 open 与 with open 区别 共同点 打开文件 不同点 with open 执行打开文件+ 关闭操作 不需手动 对象操作 什么是生成器 什么是迭代（迭代=循环） 在 Python 中，重复执行相同代码块的过程称为迭代 有两种类型的迭代： 确定迭代，其中重复的次数是预先说明的 无限迭代，只要预先声明的条件为真，代码块就会执行 什么是迭代器 迭代器(Iterator)，也是可以依次迭代取出数据的对象，在内存空间是这样存储的： 占用内存小，并且可以使用next()方法依次取数据。 可以使用isinstance()方法来判断一个对象是可迭代对象还是迭代器对象。 迭代是 python 中访问集合元素的一种非常强大的一种方式。 迭代器是一个可以记住遍历位置的对象，因此不会像列表那样一次性全部生成， 而是可以等到用的时候才生成，因此节省了大量的内存资源。 迭代器对象从集合中的第一个元素开始访问，直到所有的元素被访问完。 迭代器有两个方法：iter()和 next()方法。 特点 迭代器是一个对象 迭代器只能往前不会退后 只能迭代一次 什么是可迭代对象 可迭代的(Iterable)：就是可以for循环取数据的，比如字典、列表、元组、字符串等，不可使用next()方法 什么是迭代器对象 列表、元组、字典和集合都是可迭代的对象。它们是可迭代的容器，您可以从中获取迭代器（Iterator） 所有这些对象都有用于获取迭代器的 iter() 方法 __next__方法： 使用for语句的时候，相当于python内部把for后面的对象使用了iter()方法 a = [1, 2, 3] for i in a: do_something() for i in iter(a): do_something() iter()的返回是一个迭代对象，主要映射到了类里的__iter__()方法。 对于使用iter()方法的对象，返回值为对象中的__iter__()方法的返回值。 iter()方法返回的是一个实现了__next__()方法的对象，由该对象实现的__next__()方法来完成实际的迭代。 class Node: def __iter__(self): return iter([1, 2, 3]) if __name__ == &amp;#34;main&amp;#34;: n = Node() for i in n: print(i) 什么是聚合 json json是一种与语言无关的数据交换的格式 使用Json的格式与解析方便的可以表示一个对象信息，json有两种格式： ①对象格式：{&amp;#34;key1&amp;#34;:obj,&amp;#34;key2&amp;#34;:obj,&amp;#34;key3&amp;#34;:obj…} ②数组/集合格式：[obj,obj,obj.</description>
+    </item>
+    
+    <item>
+      <title>python—内存</title>
+      <link>https://levi-lang.github.io/post/python_num/</link>
+      <pubDate>Sun, 17 Jul 2022 08:14:11 +1000</pubDate>
+      
+      <guid>https://levi-lang.github.io/post/python_num/</guid>
+      <description>参考地址 https://www.bilibili.com/video/BV1F54114761?p=3&amp;amp;vd_source=ea39f3c7ef174f20161963804f913522 书：垃圾回收的算法与实现 栈帧(frame) 栈帧表示程序运行时函数调用栈中的某一帧。 想要获得某个函数相关的栈帧，则必须在调用这个函数且这个函数尚未返回时获取。 可以使用sys模块的_getframe()函数、或inspect模块的currentframe()函数获取当前栈帧。 这里列出来的属性全部是只读的。 所有python代码都会被compile（编译）成一个code object python 解释器 在运行python代码之前 会建立一个frame（栈帧）fram 提供了一个程序运行的环境 运行python 代码建立的那个frame之外 再之后 每一次调用函数也会建立一个frame 所以每一个bytecode 都是在一个frame里面执行的 然后一个frame 除了最外面那个之外 都是一个function call 是一个函数调用 python的字节码是stack based 一个以栈为核心的结构 所有的字节码 要么在计算 要么对栈进行操作 当你理解了这个虚拟机后就是一个stack based 研究python代码在底层如何工作的 当每一次调用函数或刚开始运行python的时候 会建立一个新的frame 然后在这个frame的环境下 会一条条的运行bytecode 每一条bytecode 在c 语言里 有相应的代码去执行它 在每一个frame 里面 python会维护一个stack 然后bytecode 和这个栈进行交互 当然也会和code object 其他的进行交互 接着就是进行计算 拿到结果 进行返回 垃圾回收 引用计数器 refchain 链表 循环引用 和交叉感染 标记清除 在python底层中再去维护一个链表 分代回收 缓存机制 对象池 </description>
+    </item>
+    
+    <item>
+      <title>性能之巅-CPU</title>
+      <link>https://levi-lang.github.io/post/performance/</link>
+      <pubDate>Sun, 17 Jul 2022 08:14:11 +1000</pubDate>
+      
+      <guid>https://levi-lang.github.io/post/performance/</guid>
+      <description>问题 1、CPU 密集型进程 导致平均负载升高 2、I/O 密集型进程 导致平均负载升高 3、大量等待 CPU 的进程调度也会导致平均负载升高 4、进程或线程上下文切换过高也会导致凭据负载升高 5、代码使得进行导致cpu使用率过高 6、短进程导致cpu使用率过高 7、僵尸进程处理 8、软中断 cpu负载多少算高 cpu上下文切换多少算高 概念 平均负载与使用率 平均负载是指单位时间内，系统处于可运行状态和不可中断状态的平均进程数，也就是平均活跃进程数 它和 CPU 使用率并没有直接关系。 这里我先解释下， 可运行状态和不可中断状态这俩词儿。 所谓可运行状态的进程，是指正在使用 CPU 或者正在等待 CPU 的进程 也就是我们常用 ps 命令看到的，处于 R 状态（Running 或 Runnable）的进程。 不可中断状态的进程则是正处于内核态关键流程中的进程，并且这些流程是不可打断的 比如最常见的是等待硬件设备的 I/O 响应 也就是我们在 ps 命令中看到的 D 状态（Uninterruptible Sleep，也称为 Disk Sleep）的进程。 比如，当一个进程向磁盘读写数据时，为了保证数据的一致性，在得到磁盘回复前 它是不能被其他进程或者中断打断的，这个时候的进程就处于不可中断状态。如果此时的进程被打断了 就容易出现磁盘数据与进程数据不一致的问题。 所以，不可中断状态实际上是系统对进程和硬件设备的一种保护机制。 因此，你可以简单理解为，平均负载其实就是平均活跃进程数。 平均活跃进程数，直观上的理解就是单位时间内的活跃进程数， 但它实际上是活跃进程数的指数衰减平均值。 这个“指数衰减平均”的详细含义你不用计较， 这只是系统的一种更快速的计算方式，你把它直接当成活跃进程数的平均值也没问题。 既然平均的是活跃进程数，那么最理想的，就是每个 CPU 上都刚好运行着一个进程， 这样每个 CPU 都得到了充分利用。 比如当平均负载为 2 时，意味着什么呢？ 在只有 2 个 CPU 的系统上，意味着所有的 CPU 都刚好被完全占用。 在 4 个 CPU 的系统上，意味着 CPU 有 50% 的空闲。 而在只有 1 个 CPU 的系统中，则意味着有一半的进程竞争不到 CPU。 平均负载为多少时合理 我们知道，平均负载最理想的情况是等于 CPU 个数。 所以在评判平均负载时，首先你要知道系统有几个 CPU， 这可以通过 top 命令或者从文件 /proc/cpuinfo 中读取 grep &amp;#39;model name&amp;#39; /proc/cpuinfo | wc -l 我们在例子中可以看到，平均负载有三个数值，到底该参考哪一个呢 如果 1 分钟、5 分钟、15 分钟的三个值基本相同，或者相差不大，那就说明系统负载很平稳。 但如果 1 分钟的值远小于 15 分钟的值，就说明系统最近 1 分钟的负载在减少，而过去 15 分钟内却有很大的负载。 反过来，如果 1 分钟的值远大于 15 分钟的值，就说明最近 1 分钟的负载在增加 这种增加有可能只是临时性的，也有可能还会持续增加下去，所以就需要持续观察。 一旦 1 分钟的平均负载接近或超过了 CPU 的个数，就意味着系统正在发生过载的问题 这时就得分析调查是哪里导致的问题，并要想办法优化了 在我看来，当平均负载高于 CPU 数量 70% 的时候，你就应该分析排查负载高的问题了 平均负载与 CPU 使用率 我们还是要回到平均负载的含义上来，平均负载是指单位时间内，处于可运行状态和不可中断状态的进程数。 所以，它不仅包括了正在使用 CPU 的进程，还包括等待 CPU 和等待 I/O 的进程。 而 CPU 使用率，是单位时间内 CPU 繁忙情况的统计，跟平均负载并不一定完全对应。 比如： CPU 密集型进程，使用大量 CPU 会导致平均负载升高，此时这两者是一致的； I/O 密集型进程，等待 I/O 也会导致平均负载升高，但 CPU 使用率不一定很高； 大量等待 CPU 的进程调度也会导致平均负载升高，此时的 CPU 使用率也会比较高。 平均负载提供了一个快速查看系统整体性能的手段，反映了整体的负载情况。 但只看平均负载本身，我们并不能直接发现，到底是哪里出现了瓶颈。 所以，在理解平均负载时，也要注意： 平均负载高有可能是 CPU 密集型进程导致的； 平均负载高并不一定代表 CPU 使用率高，还有可能是 I/O 更繁忙了 当发现负载高的时候，你可以使用 mpstat、pidstat 等工具，辅助分析负载的来源 iowait 高不一定代表 I/O 有性能瓶颈。 当系统中只有 I/O 类型的进程在运行时，iowait 也会很高，但实际上，磁盘的读写远没有达到性能瓶颈的程度。 因此，碰到 iowait 升高时，需要先用 dstat、pidstat 等工具，确认是不是磁盘 I/O 的问题，然后再找是哪些进程导致了 I/O。 等待 I/O 的进程一般是不可中断状态，所以用 ps 命令找到的 D 状态（即不可中断状态）的进程，多为可疑进程 上下文切换 多个进程竞争 CPU 就是一个经常被我们忽视的问题 进程在竞争 CPU 的时候并没有真正运行，为什么还会导致系统的负载升高呢？ CPU 上下文切换就是罪魁祸首 Linux 是一个多任务操作系统，它支持远大于 CPU 数量的任务同时运行。 当然，这些任务实际上并不是真的在同时运行，而是因为系统在很短的时间内，将 CPU 轮流分配给它们，造成多任务同时运行的错觉 # cpu上下文 而在每个任务运行前，CPU 都需要知道任务从哪里加载、又从哪里开始运行 也就是说，需要系统事先帮它设置好 CPU 寄存器和程序计数器（Program Counter，PC）。 CPU 寄存器，是 CPU 内置的容量小、但速度极快的内存。 而程序计数器，则是用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置。 它们都是 CPU 在运行任何任务前，必须的依赖环境，因此也被叫做 CPU 上下文。 所以，根据任务的不同，CPU 的上下文切换就可以分为几个不同的场景 进程上下文切换 线程上下文切换 中断上下文切换 进程既可以在用户空间运行，又可以在内核空间中运行。 进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。 从用户态到内核态的转变，需要通过系统调用来完成。 比如，当我们查看文件内容时，就需要多次系统调用来完成： 首先调用 open() 打开文件，然后调用 read() 读取文件内容，并调用 write() 将内容写到标准输出，最后再调用 close() 关闭文件。 而系统调用结束后，CPU 寄存器需要恢复原来保存的用户态，然后再切换到用户空间，继续运行进程。 那么，系统调用的过程有没有发生 CPU 上下文的切换呢？答案自然是肯定的。 CPU 寄存器里原来用户态的指令位置，需要先保存起来。接着，为了执行内核态代码， CPU 寄存器需要更新为内核态指令的新位置。最后才是跳转到内核态运行内核任务。 所以，一次系统调用的过程，其实是发生了两次 CPU 上下文切换。 不过，需要注意的是 系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程。 这跟我们通常所说的进程上下文切换是不一样的 进程上下文切换，是指从一个进程切换到另一个进程运行。 而系统调用过程中一直是同一个进程在运行。 所以，系统调用过程通常称为特权模式切换，而不是上下文切换。 但实际上，系统调用过程中，CPU 的上下文切换还是无法避免的。 其实还有很多其他场景，也会触发进程调度，在这里我给你逐个梳理下。 其一，为了保证所有进程可以得到公平调度，CPU 时间被划分为一段段的时间片，这些时间片再被轮流分配给各个进程。 这样，当某个进程的时间片耗尽了，就会被系统挂起，切换到其它正在等待 CPU 的进程运行。 其二，进程在系统资源不足（比如内存不足）时，要等到资源满足后才可以运行， 这个时候进程也会被挂起，并由系统调度其他进程运行。 其三，当进程通过睡眠函数 sleep 这样的方法将自己主动挂起时，自然也会重新调度。 其四，当有优先级更高的进程运行时，为了保证高优先级进程的运行，当前进程会被挂起，由高优先级进程来运行。 最后一个，发生硬件中断时，CPU 上的进程会被中断挂起，转而执行内核中的中断服务程序。 对同一个 CPU 来说，中断处理比进程拥有更高的优先级 总结一下，不管是哪种场景导致的上下文切换，你都应该知道： CPU 上下文切换，是保证 Linux 系统正常工作的核心功能之一， 一般情况下不需要我们特别关注。 但过多的上下文切换，会把 CPU 时间消耗在寄存器、内核栈以及虚拟内存等数据的保存和恢复上， 从而缩短进程真正运行的时间，导致系统的整体性能大幅下降。 所谓自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。 比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。 而非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。 比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换。 上下文切换频率是多少次才算正常呢 这个数值其实取决于系统本身的 CPU 性能。 在我看来，如果系统的上下文切换次数比较稳定，那么从数百到一万以内，都应该算是正常的。 但当上下文切换次数超过一万次，或者切换次数出现数量级的增长时，就很可能已经出现了性能问题。 这时，你还需要根据上下文切换的类型，再做具体分析。 比方说： 自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题； 非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈； 中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。 既然是中断，我们都知道，它只发生在内核态 而 pidstat 只是一个进程的性能分析工具，并不提供任何关于中断的详细信息，怎样才能知道中断发生的类型呢？ 没错，那就是从 /proc/interrupts 这个只读文件中读取。 /proc 实际上是 Linux 的一个虚拟文件系统，用于内核空间与用户空间之间的通信。 /proc/interrupts 就是这种通信机制的一部分，提供了一个只读的中断使用情况。 使用率 CPU 使用率，就是除了空闲时间外的其他时间占总 CPU 时间的百分比 cpu使用率=1 - 空闲时间/总cpu时间 根据这个公式，我们就可以从 /proc/stat 中的数据，很容易地计算出 CPU 使用率 不过先不要着急计算，你能说出，直接用 /proc/stat 的数据，算的是什么时间段的 CPU 使用率吗？ 看到这里，你应该想起来了，这是开机以来的节拍数累加值，所以直接算出来的，是开机以来的平均 CPU 使用率，一般没啥参考价值。 事实上，为了计算 CPU 使用率，性能工具一般都会取间隔一段时间（比如 3 秒）的两次值，作差后，再计算出这段时间内的平均 CPU 使用率， 即 平均cpu使用率=1 - 空闲时间（new）-空闲时间（old）/总cpu时间（new）-总cpu时间（old） 这个公式，就是我们用各种性能工具所看到的 CPU 使用率的实际计算方法 不过要注意的是，性能分析工具给出的都是间隔一段时间的平均 CPU 使用率 所以要注意间隔时间的设置，特别是用多个工具对比分析时，你一定要保证它们用的是相同的间隔时间 比如，对比一下 top 和 ps 这两个工具报告的 CPU 使用率， 默认的结果很可能不一样，因为 top 默认使用 3 秒时间间隔，而 ps 使用的却是进程的整个生命周期。 那么哪种工具适合在第一时间分析进程的 CPU 问题呢？ 我的推荐是 perf。 perf 是 Linux 2.</description>
     </item>
     
     <item>

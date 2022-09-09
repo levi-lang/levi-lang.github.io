@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>python—ijson</title>
+        
+        <style>
+
+    html body {
+        font-family: 'Raleway', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: red;
+        --border-width:  5px ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="https://levi-lang.github.io/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"> 
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scala.min.js"></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/swift.min.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.101.0" />
+        
+
+        
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        
+
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#">python—ijson</a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                        <ul class="nav navbar-nav">
+                            
+                                <li><a href="/">Home</a></li>
+                            
+                                <li><a href="/about/">About</a></li>
+                            
+                                <li><a href="/post/">Posts</a></li>
+                            
+                                <li><a href="/project/">Projects</a></li>
+                            
+                        </ul>
+                    
+                    
+                        <ul class="nav navbar-nav navbar-right">
+                            
+                                <li class="navbar-icon"><a href="mailto:me@example.com"><i class="fas fa-envelope"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://github.com/username/"><i class="fab fa-github"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://twitter.com/username/"><i class="fab fa-twitter"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://www.linkedin.com/in/username/"><i class="fab fa-linkedin"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://www.stackoverflow.com/username/"><i class="fab fa-stack-overflow"></i></a></li>
+                            
+                        </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2>python—ijson</h2>
+        <h5>July 17, 2022</h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="场景">场景</h1>
+<pre tabindex="0"><code>解析超大json文件
+json.load直接加载json文件 内存装不下
+网上大部份资料都是基于分块的思路解决超大数据文件的解析的
+比如read函数可以一块一块加载，像这样read(1024)每次读取1024字节，总能将数据读取完的。
+或者是readline函数，每次读取一行，这个函数的读取方式特别适合txt、csv文件。
+然而这样的函数对于json格式的数据就完全不适用了，因为json格式的文件是有严格的结构的。
+你不可能一块一块的或者一行一行的读取
+噢不对，你可以这样读取，但是你这样读取出来的数据是完全没有意义的，
+因为无法解析，你无法获得你想要的数据。
+块读取的方式不行，那该怎么办呢，流式读取
+</code></pre><h1 id="知识点">知识点</h1>
+<pre tabindex="0"><code>json大文件读取
+open  与 with open 区别
+    共同点 打开文件
+    不同点 with open 执行打开文件+ 关闭操作 不需手动
+
+对象操作
+
+什么是生成器
+
+什么是迭代（迭代=循环）
+在 Python 中，重复执行相同代码块的过程称为迭代
+有两种类型的迭代：
+  确定迭代，其中重复的次数是预先说明的
+  无限迭代，只要预先声明的条件为真，代码块就会执行
+
+什么是迭代器
+  迭代器(Iterator)，也是可以依次迭代取出数据的对象，在内存空间是这样存储的： 
+  占用内存小，并且可以使用next()方法依次取数据。
+  可以使用isinstance()方法来判断一个对象是可迭代对象还是迭代器对象。
+
+  迭代是 python 中访问集合元素的一种非常强大的一种方式。
+  迭代器是一个可以记住遍历位置的对象，因此不会像列表那样一次性全部生成，
+  而是可以等到用的时候才生成，因此节省了大量的内存资源。
+  迭代器对象从集合中的第一个元素开始访问，直到所有的元素被访问完。
+  迭代器有两个方法：iter()和 next()方法。
+
+  特点
+    迭代器是一个对象
+    迭代器只能往前不会退后
+    只能迭代一次
+
+什么是可迭代对象
+可迭代的(Iterable)：就是可以for循环取数据的，比如字典、列表、元组、字符串等，不可使用next()方法
+
+
+什么是迭代器对象
+  列表、元组、字典和集合都是可迭代的对象。它们是可迭代的容器，您可以从中获取迭代器（Iterator）
+  所有这些对象都有用于获取迭代器的 iter() 方法
+
+__next__方法：
+使用for语句的时候，相当于python内部把for后面的对象使用了iter()方法
+a = [1, 2, 3]
+for i in a:
+	do_something()
+
+for i in iter(a):
+	do_something()
+
+iter()的返回是一个迭代对象，主要映射到了类里的__iter__()方法。
+对于使用iter()方法的对象，返回值为对象中的__iter__()方法的返回值。
+iter()方法返回的是一个实现了__next__()方法的对象，由该对象实现的__next__()方法来完成实际的迭代。
+class Node:
+	def __iter__(self):
+		return iter([1, 2, 3])
+
+if __name__ == &#34;main&#34;:
+	n = Node()
+	for i in n:
+		print(i)
+
+
+
+什么是聚合
+</code></pre><h2 id="json">json</h2>
+<pre tabindex="0"><code>json是一种与语言无关的数据交换的格式
+使用Json的格式与解析方便的可以表示一个对象信息，json有两种格式：
+    ①对象格式：{&#34;key1&#34;:obj,&#34;key2&#34;:obj,&#34;key3&#34;:obj…}
+    ②数组/集合格式：[obj,obj,obj...]
+</code></pre><h2 id="cjson">cjson</h2>
+<pre tabindex="0"><code></code></pre><h2 id="ujson">ujson</h2>
+<pre tabindex="0"><code></code></pre><h2 id="ijson">ijson</h2>
+<pre tabindex="0"><code>参考网址:
+https://www.aylakhan.tech/?p=27
+</code></pre><h1 id="思路">思路</h1>
+<pre tabindex="0"><code>我们在获取一份第三方的数据后，需要进行数据的分析，但发现它是json的文件形式并不能直接使用。
+这就需要用到解析的方法，我们在python中就可以完成这样操作。
+下面就json说进行简单说明，然后理清解析json文件 的思路
+最后把相关的解析代码分享给大家，一起往下看具体内容。
+
+解析思路
+(1)新建两个函数A和B。
+(2)函数 A处理字典数据，被调用后，判断传递的参数，如果参数为字典，则调用自身；
+(3)如果是列表或者元组，则调用列表处理函数B；
+(4)函数 B处理列表，被调用后，判断传递的参数，如果参数为列表或者元组，则调用自身；
+(5)如果是字典，则调用字典处理函数A
+
+参考地址
+https://www.it610.com/article/1546779590142267392.htm
+</code></pre><h1 id="实际代码">实际代码</h1>
+<pre tabindex="0"><code># -*- coding: utf-8 -*-
+&#34;&#34;&#34;
+@author: levi
+@time: 2022-09-07
+@description: ijson解析超大json文件
+&#34;&#34;&#34;
+
+import time
+
+start = time.perf_counter()
+# 其实应该加上文件路径
+# file_path = r&#39;D:\\obj_graph.txt&#39;
+with open(&#39;StateMarketDeals.json&#39;, &#39;r&#39;, encoding=&#39;utf-8&#39;) as f:
+    objects = ijson.kvitems(f, &#39;&#39;, use_float=True)
+    with open(&#39;test.json&#39;, &#39;a+&#39;) as t:
+        while True:
+            try:
+                t.write(str(objects.__next__()))
+                t.write(&#39;\n&#39;)
+                # 此表达式会导致内存复制多分 减少效率 因为类型不一样所以内存地址不一样
+                # t.writelines(line + &#39;\n&#39; for line in [str(objects.__next__())])
+            except StopIteration as e:
+                print(&#34;数据读取完成&#34;)
+                break
+end = time.perf_counter()
+print(&#39;spend: %s second&#39; % (end - start))
+</code></pre></div>
+
+    
+    
+    
+
+    
+    
+        <h4 class="page-header">Comments</h4>
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "username" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

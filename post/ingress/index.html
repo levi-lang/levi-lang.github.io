@@ -455,6 +455,125 @@ spec:
   secret:
     name: www.xxx.com.ca
     namespace: production
+</code></pre><h1 id="certbot">certbot</h1>
+<pre tabindex="0"><code># 官方网址：https://certbot.eff.org/instructions?ws=nginx&amp;os=ubuntufocal
+# 其他网址：https://blog.csdn.net/pleong/article/details/124946584
+
+实际操作
+让我们安装 certbot，它会使用 EFF 的Certbot在您的网站上自动启用 HTTPS ，部署 Let&#39;s Encrypt 证书
+apt-get install software-properties-common &amp;&amp; add-apt-repository ppa:certbot/certbot &amp;&amp; apt-get install python-certbot-nginx
+
+# 通过api 进行证书申请
+certbot certonly -d panda.apiprod.greaterheat.com --manual --preferred-challenges dns --server https://acme-v02.api.letsencrypt.org/directory
+
+# 填写邮箱
+Saving debug log to /var/log/letsencrypt/letsencrypt.log                                                                                                                                                                                             
+Plugins selected: Authenticator manual, Installer None                                                                                                                                                                                               
+Enter email address (used for urgent renewal and security notices) (Enter &#39;c&#39; to                                                                                                                                                                     
+cancel): 812906084@163.com                                                                                                                                                                                                                           
+          
+# 同意，以便在以下位置向ACME服务器注册                                                                                                                                                                                                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -                                                                                                                                                                      
+Please read the Terms of Service at                                                                                                                                                                                                                  
+https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf. You must                                                                                                                                                                          
+agree in order to register with the ACME server at                                                                                                                                                                                                   
+https://acme-v02.api.letsencrypt.org/directory                                                                                                                                                                                                       
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -                                                                                                                                                                      
+(A)gree/(C)ancel: A                                                                                                                                                                                                                                  
+                                      
+# 您愿意与电子前沿分享您的电子邮件地址吗                                                                                                                                                                                                              
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -                                                                                                                                                                      
+Would you be willing to share your email address with the Electronic Frontier                                                                                                                                                                        
+Foundation, a founding partner of the Let&#39;s Encrypt project and the non-profit                                                                                                                                                                       
+organization that develops Certbot? We&#39;d like to send you email about our work                                                                                                                                                                       
+encrypting the web, EFF news, campaigns, and ways to support digital freedom.                                                                                                                                                                        
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -                                                                                                                                                                      
+(Y)es/(N)o: Y                                                                                                                                                                                                                                        
+Obtaining a new certificate                                                                                                                                                                                                                          
+Performing the following challenges:                                                                                                                                                                                                                 
+dns-01 challenge for panda.apiprod.greaterheat.com                                                                                                                                                                                                   
+
+# 注意：此机器的IP将被公开记录为已请求此操作                                                                                                                                                                                                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -                                                                                                                                                                      
+NOTE: The IP of this machine will be publicly logged as having requested this                                                                                                                                                                        
+certificate. If you&#39;re running certbot in manual mode on a machine that is not                                                                                                                                                                       
+your server, please ensure you&#39;re okay with that.                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                     
+Are you OK with your IP being logged?                                                                                                                                                                                                                
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -                                                                                                                                                                      
+(Y)es/(N)o: Y                                                                                                                                                                                                                                        
+
+# 生成了DNS TXT 需要登录DNS解析进行配置                                                                                                                                                                                                                        
+# 配置好后敲回车
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -                                                                                                                                                                      
+Please deploy a DNS TXT record under the name                                                                                                                                                                                                        
+_acme-challenge.panda.apiprod.greaterheat.com with the following value:                                                                                                                                                                              
+                                                                                                                                                                                                                                                     
+Y42vaojENGm7tv24UeIOAcrzc3-23b4xZjz4DKoXQI                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                     
+Before continuing, verify the record is deployed.                                                                                                                                                                                                    
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -                                                                                                                                                                      
+Press Enter to Continue     
+Waiting for verification...                                                                                                                                                                                                                          
+Cleaning up challenges                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                     
+IMPORTANT NOTES:                                                                                                                                                                                                                                     
+ - Congratulations! Your certificate and chain have been saved at:                                                                                                                                                                                   
+   /etc/letsencrypt/live/panda.apiprod.greaterheat.com/fullchain.pem                                                                                                                                                                                 
+   Your key file has been saved at:                                                                                                                                                                                                                  
+   /etc/letsencrypt/live/panda.apiprod.greaterheat.com/privkey.pem                                                                                                                                                                                   
+   Your cert will expire on 2022-11-03. To obtain a new or tweaked                                                                                                                                                                                   
+   version of this certificate in the future, simply run certbot                                                                                                                                                                                     
+   again. To non-interactively renew *all* of your certificates, run                                                                                                                                                                                 
+   &#34;certbot renew&#34;                                                                                                                                                                                                                                   
+ - If you like Certbot, please consider supporting our work by:                                                                                                                                                                                      
+                                                                                                                                                                                                                                                     
+   Donating to ISRG / Let&#39;s Encrypt:   https://letsencrypt.org/donate                                                                                                                                                                                
+   Donating to EFF:                    https://eff.org/donate-le            
+
+# 生成的文件 默认在/etc/letsencrypt目录下
+├── accounts
+│   └── acme-v02.api.letsencrypt.org
+│       └── directory
+│           └── 9741d2378309ac75249224449aabbd8b
+│               ├── meta.json
+│               ├── private_key.json
+│               └── regr.json
+├── archive
+│   └── panda.apiprod.greaterheat.com
+│       ├── cert1.pem
+│       ├── chain1.pem
+│       ├── fullchain1.pem
+│       └── privkey1.pem
+├── cli.ini
+├── csr
+│   ├── 0000_csr-certbot.pem
+│   └── 0001_csr-certbot.pem
+├── keys
+│   ├── 0000_key-certbot.pem
+│   └── 0001_key-certbot.pem
+├── live
+│   ├── panda.apiprod.greaterheat.com
+│   │   ├── cert.pem -&gt; ../../archive/panda.apiprod.greaterheat.com/cert1.pem
+│   │   ├── chain.pem -&gt; ../../archive/panda.apiprod.greaterheat.com/chain1.pem
+│   │   ├── fullchain.pem -&gt; ../../archive/panda.apiprod.greaterheat.com/fullchain1.pem
+│   │   ├── privkey.pem -&gt; ../../archive/panda.apiprod.greaterheat.com/privkey1.pem
+│   │   └── README
+│   └── README
+├── renewal
+│   └── panda.apiprod.greaterheat.com.conf
+└── renewal-hooks
+    ├── deploy
+    ├── post
+    └── pre
+
+其中在 live 目录下
+privkey.pem 是key
+fullchain.pem 是pem  
+使用上 直接修改 并在k8s中生成secret 挂载到deployment中的pod里
+fullchain1.pem  修改成 panda.apiprod.greaterheat.pem
+privkey1.pem 修改成 panda.apiprod.greaterheat.key 
+
+另外补充 curl cip.cc
+可以查看当前主机公网地址
 </code></pre><h1 id="测试二openelb外部访问">测试二openelb外部访问</h1>
 <pre tabindex="0"><code>1 购买域名
 2 通过域名面板 把域名指向相应openelb的服务器（在云上指向SLB负载均衡器，此处为单点）
